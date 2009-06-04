@@ -40,6 +40,7 @@
 #
 
 class User < ActiveRecord::Base
+  
   set_primary_key "user_id"
   has_many :user_group
   has_many :groups, :through => :user_group
@@ -48,6 +49,7 @@ class User < ActiveRecord::Base
   named_scope :with_uploaded_keys, :conditions => "authorized_keys is not null and authorized_keys != ''"
   # This is not correct yet... needs a HAVING clause, I think
   named_scope :with_scm_write_to_at_least_one_project, :conditions => "users.user_id = user_group.user_id and cvs_flags = 1", :joins => :user_group
+  
   def self.user_with_sorted_groups_hash
     # TODO should use the PostgreSQL equivalent of MySQL's group_concat
     sql = "select u.user_name, g.unix_group_name from users u, user_group ug, groups g where u.user_id = ug.user_id and ug.group_id = g.group_id and ug.cvs_flags = '1' and u.status='A' and g.status = 'A' order by u.user_name"
@@ -59,6 +61,11 @@ class User < ActiveRecord::Base
     hash.each {|k,v| hash[k] = v.sort }
     hash
   end
+  
+  def self.authenticate(username, clear_text_password)
+    User.find_by_user_name_and_user_pw(username, Digest::MD5.hexdigest(clear_text_password))
+  end
+  
   def authorized_keys_with_newlines
     authorized_keys.gsub("###", "\n")
   end
