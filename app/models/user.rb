@@ -1,3 +1,44 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  user_id            :integer         not null, primary key
+#  user_name          :text            default(""), not null
+#  email              :text            default(""), not null
+#  user_pw            :string(32)      default(""), not null
+#  realname           :string(32)      default(""), not null
+#  status             :string(1)       default("A"), not null
+#  shell              :string(20)      default("/bin/bash"), not null
+#  unix_pw            :string(40)      default(""), not null
+#  unix_status        :string(1)       default("N"), not null
+#  unix_uid           :integer         default(0), not null
+#  unix_box           :string(10)      default("shell1"), not null
+#  add_date           :integer         default(0), not null
+#  confirm_hash       :string(32)
+#  mail_siteupdates   :integer         default(0), not null
+#  mail_va            :integer         default(0), not null
+#  authorized_keys    :text
+#  email_new          :text
+#  people_view_skills :integer         default(0), not null
+#  people_resume      :text            default(""), not null
+#  timezone           :string(64)      default("GMT")
+#  language           :integer         default(1), not null
+#  block_ratings      :integer         default(0)
+#  jabber_address     :text
+#  jabber_only        :integer
+#  address            :text
+#  phone              :text
+#  fax                :text
+#  title              :text
+#  theme_id           :integer
+#  firstname          :string(60)
+#  lastname           :string(60)
+#  address2           :text
+#  ccode              :string(2)       default("US")
+#  sys_state          :string(1)       default("N")
+#  type_id            :integer         default(1)
+#
+
 class User < ActiveRecord::Base
   set_primary_key "user_id"
   has_many :user_group

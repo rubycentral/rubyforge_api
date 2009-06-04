@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: gem_downloads
+#
+#  ip               :string(16)      not null
+#  downloaded_at    :datetime        not null
+#  gem_name         :string(64)      not null
+#  client_signature :string(32)      not null
+#
+
 class GemDownload < ActiveRecord::Base
   def self.update_gems_features_box
     datestr = (Time.now - (60*60*24*7)).strftime("%d-%b-%y")

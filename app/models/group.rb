@@ -1,3 +1,43 @@
+# == Schema Information
+#
+# Table name: groups
+#
+#  group_id                      :integer         not null, primary key
+#  group_name                    :string(40)
+#  homepage                      :string(128)
+#  is_public                     :integer         default(0), not null
+#  status                        :string(1)       default("A"), not null
+#  unix_group_name               :string(30)      default(""), not null
+#  unix_box                      :string(20)      default("shell1"), not null
+#  http_domain                   :string(80)
+#  short_description             :string(255)
+#  register_purpose              :text
+#  license_other                 :text
+#  register_time                 :integer         default(0), not null
+#  rand_hash                     :text
+#  use_mail                      :integer         default(1), not null
+#  use_survey                    :integer         default(1), not null
+#  use_forum                     :integer         default(1), not null
+#  use_pm                        :integer         default(1), not null
+#  use_scm                       :integer         default(1), not null
+#  use_news                      :integer         default(1), not null
+#  type_id                       :integer         default(1), not null
+#  use_docman                    :integer         default(1), not null
+#  new_doc_address               :text            default(""), not null
+#  send_all_docs                 :integer         default(0), not null
+#  use_pm_depend_box             :integer         default(1), not null
+#  use_ftp                       :integer         default(0)
+#  use_tracker                   :integer         default(1)
+#  use_frs                       :integer         default(1)
+#  use_stats                     :integer         default(1)
+#  enable_pserver                :integer         default(1)
+#  enable_anonscm                :integer         default(1)
+#  sys_state                     :string(1)       default("N")
+#  license                       :integer         default(100)
+#  scm_box                       :text
+#  needs_vhost_permissions_reset :boolean
+#
+
 class Group < ActiveRecord::Base
   set_primary_key "group_id"
   has_and_belongs_to_many :plugins, :join_table => "group_plugin" do

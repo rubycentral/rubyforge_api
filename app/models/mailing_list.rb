@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: mail_group_list
+#
+#  group_list_id :integer         not null
+#  group_id      :integer         default(0), not null
+#  list_name     :text
+#  is_public     :integer         default(0), not null
+#  password      :string(16)
+#  list_admin    :integer         default(0), not null
+#  status        :integer         default(0), not null
+#  description   :text
+#
+
 class MailingList < ActiveRecord::Base
   set_table_name "mail_group_list"
   belongs_to :owner, :class_name => "User", :foreign_key => "list_admin"
