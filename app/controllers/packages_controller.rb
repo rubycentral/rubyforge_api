@@ -13,8 +13,7 @@ class PackagesController < ApplicationController
   end
   
   def ensure_has_package_create
-    #current_user.groups.find(group.id)
-    raise "FAIL"
+    current_user.user_group.find_by_group_id(group.id).has_release_permissions?
   end
   
   def current_user

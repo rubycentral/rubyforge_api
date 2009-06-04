@@ -22,5 +22,9 @@ class UserGroup < ActiveRecord::Base
   set_table_name "user_group"
   belongs_to :user
   belongs_to :group
+  
+  def has_release_permissions?
+    release_flags == 1
+  end
 end
 
