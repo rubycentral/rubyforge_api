@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :user_group
   has_many :api_requests do
     def count_recent
-      count(:all, :conditions => "created_at > '#{Time.now - 1.hour}'")
+      count(:conditions => "created_at > '#{Time.now - 1.hour}'")
     end
   end
   has_many :forum_messages, :class_name => "Forum", :foreign_key => "posted_by"
