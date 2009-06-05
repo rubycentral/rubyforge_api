@@ -44,6 +44,11 @@ class User < ActiveRecord::Base
   set_primary_key "user_id"
   has_many :user_group
   has_many :groups, :through => :user_group
+  has_many :api_requests do
+    def count_recent
+      count(:all, :conditions => "created_at > '#{Time.now - 1.hour}'")
+    end
+  end
   has_many :forum_messages, :class_name => "Forum", :foreign_key => "posted_by"
   named_scope :active, :conditions => {:status => "A"}
   named_scope :with_uploaded_keys, :conditions => "authorized_keys is not null and authorized_keys != ''"
