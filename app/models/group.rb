@@ -39,7 +39,9 @@
 #
 
 class Group < ActiveRecord::Base
+  
   set_primary_key "group_id"
+  
   has_and_belongs_to_many :plugins, :join_table => "group_plugin" do
     def includes_svn?
       !all.select {|p| p.plugin_name == "scmsvn"}.empty?
@@ -59,10 +61,13 @@ class Group < ActiveRecord::Base
   has_many :users, :through => :user_group
   has_many :forum_group
   has_many :forums, :through => :forum_group
+  has_many :packages
+  
   named_scope :active, :conditions => {:status => 'A'}
   named_scope :pending, :conditions => {:status => 'P'}
   named_scope :needs_vhost_permissions_reset, :conditions => {:needs_vhost_permissions_reset => true}
   named_scope :uses_git, :conditions => "groups.group_id = group_plugin.group_id and group_plugin.plugin_id = plugins.plugin_id and plugins.plugin_name = 'scmgit'", :joins => ", plugins, group_plugin"
+  
   def vhost_conf
     "#{HTTPD_CONF_DIR}#{unix_group_name}.rubyforge.org.conf"
   end
