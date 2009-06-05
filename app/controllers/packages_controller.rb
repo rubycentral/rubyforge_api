@@ -38,7 +38,11 @@ class PackagesController < ApplicationController
   end
   
   def ensure_not_overeager
-    raise "Too many requests from you recently!" if current_user.api_requests.count_recent > 60
+    raise "Too many requests from you recently!" if current_user_too_eager
+  end
+  
+  def current_user_too_eager
+    current_user.api_requests.count_recent > 60
   end
 
 end
