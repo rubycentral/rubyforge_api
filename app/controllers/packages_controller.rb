@@ -7,10 +7,14 @@ class PackagesController < ApplicationController
   def create
     ensure_has_package_create || access_denied
     group.packages.create(params[:package])
-    head :success
+    head :created
   end
   
   protected
+  
+  def access_denied
+    head :unauthorized
+  end
   
   # Most of these methods will probably move over to ApplicationController; just keeping them here now for convenience
   def group
@@ -18,7 +22,7 @@ class PackagesController < ApplicationController
   end
   
   def ensure_logged_in
-    raise "Authentication failed" unless current_user
+    access_denied unless current_user
   end
   
   # TODO this raises an exception instead of returning a client error if the user isn't a member of that group
@@ -32,13 +36,12 @@ class PackagesController < ApplicationController
   
   def record_api_request
     yield
-  rescue => exception 
   ensure
     ApiRequest.create(:user => current_user, :path => request.path, :method => request.method.to_s.upcase, :ip_address => request.remote_ip, :response_code => response.status)
   end
   
   def ensure_not_overeager
-    raise "Too many requests from you recently!" if current_user_too_eager
+    access_denied if current_user_too_eager
   end
   
   def current_user_too_eager
