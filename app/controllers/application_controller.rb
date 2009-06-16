@@ -35,7 +35,11 @@ class ApplicationController < ActionController::Base
   end
   
   def group
-    @group ||= Group.find(params[:group_id] || params[:id])
+    @group ||= if (params[:group_id] || params[:id]) =~ /^\d+$/
+      Group.find(params[:group_id] || params[:id])
+    else
+      Group.find_by_unix_group_name(params[:group_id] || params[:id])
+    end
   end
   
 
