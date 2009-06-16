@@ -31,9 +31,9 @@ class PackagesController < ApplicationController
   end
   
   def current_user
-    @current_user ||= User.authenticate(params[:username], params[:password])
-    # TODO switch to basic auth, see
-    # http://api.rubyonrails.org/classes/ActionController/HttpAuthentication/Basic/ControllerMethods.html#M000375
+    @current_user ||= authenticate_or_request_with_http_basic("RubyForge API") do |username, password|
+      User.authenticate(username, password)
+    end
   end
   
   def record_api_request
