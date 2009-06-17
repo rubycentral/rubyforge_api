@@ -74,20 +74,29 @@ class User < ActiveRecord::Base
   def authorized_keys_with_newlines
     authorized_keys.gsub("###", "\n")
   end
+  
   def unix_forward_file_path
     "#{home_directory}/.forward"
   end
+  
   def unix_authorized_keys_file_path
     "#{dot_ssh_directory}/authorized_keys"
   end
+  
   def dot_ssh_directory
     "#{home_directory}/.ssh"
   end
+  
   def password
     unix_pw
   end
+  
   def home_directory
     "/home/#{user_name}"
+  end
+  
+  def externalize
+    self.attributes.inject({}) {|memo, a| memo[a[0]] = a[1] unless %w{unix_pw user_pw email}.include?(a[0]); memo }  
   end
 end
 
