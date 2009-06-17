@@ -2,6 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
 
+require File.expand_path(File.dirname(__FILE__) + "/blueprints")
+
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
   # in a transaction that's rolled back on completion.  This ensures that the
@@ -32,7 +34,21 @@ class ActiveSupport::TestCase
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
-  fixtures :all
+  # fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  setup { Sham.reset }
+  
+  def setup_basic_auth_for(user)
+    @request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("#{user.user_name}:secret")
+  end
+  
+  def setup_user_and_basic_auth_for_user
+    CountryCode.add 'Chad', 'TD'
+    SupportedLanguage.make
+    UserType.make
+    @user = User.make
+    setup_basic_auth_for @user
+    @user
+  end
 end

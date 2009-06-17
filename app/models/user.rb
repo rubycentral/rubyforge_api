@@ -44,6 +44,8 @@ class User < ActiveRecord::Base
   set_primary_key "user_id"
   has_many :user_group
   has_many :groups, :through => :user_group
+  belongs_to :supported_language, :foreign_key => 'language'
+  belongs_to :user_type, :foreign_key => 'type_id'
   has_many :api_requests do
     def count_recent
       count(:conditions => "created_at > '#{Time.now - 1.hour}'")

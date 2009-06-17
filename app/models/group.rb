@@ -62,6 +62,7 @@ class Group < ActiveRecord::Base
   has_many :forum_group
   has_many :forums, :through => :forum_group
   has_many :packages
+  belongs_to :license, :foreign_key => 'license'
   
   named_scope :active, :conditions => {:status => 'A'}
   named_scope :pending, :conditions => {:status => 'P'}

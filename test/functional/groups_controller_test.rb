@@ -1,8 +1,15 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class GroupsControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  def setup
+    License.make
+    @group = Group.make
+    setup_user_and_basic_auth_for_user
+  end
+  
+  test "show should work" do
+    get :show, :id => @group.id
+    assert_response :success
   end
 end
