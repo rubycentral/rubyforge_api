@@ -1,5 +1,11 @@
 class PackagesController < ApplicationController
   
+  def index
+    respond_to do |wants| 
+      wants.js {render :json => group.packages.to_json }
+    end
+  end
+  
   def create
     ensure_has_package_create || access_denied
     group.packages.create!(params[:package])

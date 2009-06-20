@@ -18,6 +18,7 @@ Rails::Initializer.run do |config|
   # TODO why can't this find the gem?  It's installed... blah.
   # config.gem 'notahat-machinist', :source => 'http://gems.github.com'
   config.gem 'faker', :version => '0.3.1'
+  config.gem 'json', :version => '1.1.6'
   
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
