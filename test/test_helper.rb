@@ -39,14 +39,23 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   setup { Sham.reset }
   
+  def setup_seed_data
+    FrsStatus.add 1, "Admin"
+    CountryCode.add 'Chad', 'TD'
+    License.make
+    SupportedLanguage.make
+    UserType.make
+  end
+  
   def setup_basic_auth_for(user)
     @request.env["HTTP_AUTHORIZATION"] = "Basic " + Base64::encode64("#{user.user_name}:secret")
   end
   
+  def setup_group
+    @group = Group.make
+  end
+  
   def setup_user_and_basic_auth_for_user
-    CountryCode.add 'Chad', 'TD'
-    SupportedLanguage.make
-    UserType.make
     @user = User.make
     setup_basic_auth_for @user
     @user

@@ -25,6 +25,11 @@ Group.blueprint do
   license { License.first }
 end
 
+Role.blueprint do
+  role_name "Admin"
+  group { Group.first }
+end
+
 User.blueprint do
   user_name
   email

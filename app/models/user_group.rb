@@ -19,12 +19,20 @@
 #
 
 class UserGroup < ActiveRecord::Base
+
   set_table_name "user_group"
+  set_primary_key 'user_group_id'
+
   belongs_to :user
   belongs_to :group
   
   def has_release_permissions?
     release_flags == 1
+  end
+  
+  def grant_release_permissions!
+    self.release_flags = 1
+    save
   end
 end
 

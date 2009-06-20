@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GroupsControllerTest < ActionController::TestCase
 
   def setup
-    License.make
-    @group = Group.make
+    setup_seed_data
+    setup_group
     setup_user_and_basic_auth_for_user
   end
   

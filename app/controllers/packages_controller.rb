@@ -2,7 +2,7 @@ class PackagesController < ApplicationController
   
   def create
     ensure_has_package_create || access_denied
-    group.packages.create(params[:package])
+    group.packages.create!(params[:package])
     head :created
   end
   
