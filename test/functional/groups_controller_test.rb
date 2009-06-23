@@ -3,9 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GroupsControllerTest < ActionController::TestCase
 
   def setup
-    setup_seed_data
-    setup_group
-    setup_user_and_basic_auth_for_user
+    setup_seed_data_with_group_and_admin_user
   end
   
   test "show should work" do

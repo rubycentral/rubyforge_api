@@ -39,6 +39,14 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   setup { Sham.reset }
   
+  def setup_seed_data_with_group_and_admin_user
+    setup_seed_data
+    setup_user_and_basic_auth_for_user
+    setup_group
+    Role.make
+    @user.user_group.create(:group => @group, :release_flags => 1, :role_id => Role.first.id)
+  end
+  
   def setup_seed_data
     FrsStatus.add 1, "Admin"
     CountryCode.add 'Chad', 'TD'

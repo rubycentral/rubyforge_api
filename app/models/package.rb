@@ -15,6 +15,7 @@ class Package < ActiveRecord::Base
   set_primary_key 'package_id'
 
   belongs_to :group
+  has_many :releases
   
   validates_presence_of :group_id, :name
   validates_inclusion_of :status_id, :in => [1,3]

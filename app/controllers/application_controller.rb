@@ -43,5 +43,9 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def package
+    @package ||= Package.find(params[:package_id])
+  end
+  
 
 end
