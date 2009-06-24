@@ -2,6 +2,7 @@ class Release < ActiveRecord::Base
   
   set_table_name 'frs_release'
   set_primary_key 'release_id'
+
   belongs_to :package
   belongs_to :released_by, :class_name => 'User', :foreign_key => 'released_by'
   

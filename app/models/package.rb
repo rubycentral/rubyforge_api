@@ -15,14 +15,14 @@ class Package < ActiveRecord::Base
   set_primary_key 'package_id'
 
   belongs_to :group
-  has_many :releases
+  has_many :releases, :dependent => :destroy
   
   validates_presence_of :group_id, :name
-  validates_inclusion_of :status_id, :in => [1,3]
+  validates_inclusion_of :status_id, :in => [FrsStatus::ACTIVE,FrsStatus::HIDDEN]
   validates_uniqueness_of :name, :scope => :group_id
   validates_associated :group
 
   def before_validation_on_create
-    self.status_id = 1 unless self.status_id && self.status_id != 0
+    self.status_id = FrsStatus::ACTIVE unless self.status_id && self.status_id != 0
   end
 end

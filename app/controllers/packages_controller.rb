@@ -12,6 +12,12 @@ class PackagesController < ApplicationController
     head :created
   end
   
+  def destroy
+    ensure_has_package_create || access_denied
+    group.packages.find_by_package_id(params[:id]).destroy
+    head :success
+  end
+
   protected
   
   # TODO this raises an exception instead of returning a client error if the user isn't a member of that group

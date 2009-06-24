@@ -18,6 +18,14 @@ class PackagesControllerTest < ActionController::TestCase
     assert_equal "apples", JSON.parse(@response.body).first["package"]["name"]
   end
   
+  test "can destroy package" do
+    create_package_via_post
+    Package.last.releases.create(:name => "foo", :released_by => User.first, :status_id => FrsStatus::ACTIVE)
+    assert_difference "Package.count", -1 do
+      delete :destroy, :group_id => Group.first.id, :id => Package.last.id
+    end
+  end
+  
   private
   
   def create_package_via_post
