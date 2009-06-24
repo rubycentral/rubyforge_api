@@ -1,4 +1,5 @@
 class Release < ActiveRecord::Base
+  
   set_table_name 'frs_release'
   set_primary_key 'release_id'
   belongs_to :package
@@ -6,11 +7,7 @@ class Release < ActiveRecord::Base
   
   def externalize
     self.attributes.inject({}) do |memo, a| 
-      if a[0] == "released_by"
-        memo[a[0]] = a[1].id
-      else
-        memo[a[0]] = a[1]
-      end
+      memo[a[0]] = a[1]
       memo
     end
   end

@@ -5,4 +5,5 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   map.resources :users
+  map.resources :processors
 end

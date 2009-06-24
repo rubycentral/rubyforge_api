@@ -30,6 +30,10 @@ Role.blueprint do
   group { Group.first }
 end
 
+Processor.blueprint do
+  name "i386"
+end
+
 User.blueprint do
   user_name
   email
