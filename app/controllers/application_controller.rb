@@ -47,5 +47,9 @@ class ApplicationController < ActionController::Base
     @package ||= Package.find(params[:package_id])
   end
   
-
+  # TODO this raises an exception instead of returning a client error if the user isn't a member of that group
+  def ensure_has_package_create
+    current_user.user_group.find_by_group_id(group.id).has_release_permissions?
+  end
+  
 end

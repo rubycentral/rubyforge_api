@@ -4,14 +4,21 @@ class ReleasesControllerTest < ActionController::TestCase
 
   def setup
     setup_seed_data_with_group_and_admin_user
+    @package = @group.packages.create(:name => "fiddle", :status_id => FrsStatus::ACTIVE)
   end
 
   test "index action" do
-    p = @group.packages.create(:name => "fiddle", :status_id => FrsStatus::ACTIVE)
-    Release.create(:notes => "foo", :released_by => @user, :package => p, :status_id => FrsStatus::ACTIVE)
+    Release.create(:notes => "foo", :released_by => @user, :package => @package, :status_id => FrsStatus::ACTIVE)
     get :index, :group_id => @group.id, :package_id => @group.packages.first.id
     assert_response :success
     assert_match "foo", @response.body
   end
+  
+  test "create action" do
+    assert_difference "Release.count" do
+      post :create, :group_id => @group.id, :package_id => @package.id, :release => {:name => "testrelease"}
+    end
+  end
+  
 
 end

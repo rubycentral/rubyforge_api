@@ -29,6 +29,6 @@ class PackagesControllerTest < ActionController::TestCase
   private
   
   def create_package_via_post
-    post :create, {:package => {:name => "apples", :status_id => 1}, :group_id => @group.id}
+    post :create, {:package => {:name => "apples", :status_id => FrsStatus::ACTIVE}, :group_id => @group.id}
   end
 end
