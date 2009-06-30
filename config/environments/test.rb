@@ -26,3 +26,11 @@ config.action_mailer.delivery_method = :test
 # This is necessary if your schema can't be completely dumped by the schema dumper,
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
+
+# TODO why can't this find the gem?  It's installed... blah.
+# config.gem 'notahat-machinist', :source => 'http://gems.github.com'
+config.gem 'faker', :version => '0.3.1'
+
+GFORGE_WWW_FILE_DIRECTORY = File.join RAILS_ROOT, "tmp", "gforge-files"
+
+

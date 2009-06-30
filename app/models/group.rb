@@ -38,6 +38,8 @@
 #  needs_vhost_permissions_reset :boolean
 #
 
+require 'fileutils'
+
 class Group < ActiveRecord::Base
   
   set_primary_key "group_id"
@@ -56,6 +58,7 @@ class Group < ActiveRecord::Base
       all.find {|p| p.plugin_name =~ /^scm/}
     end
   end
+  
   has_many :group_histories
   has_many :user_group
   has_many :users, :through => :user_group
@@ -74,20 +77,31 @@ class Group < ActiveRecord::Base
   def vhost_conf
     "#{HTTPD_CONF_DIR}#{unix_group_name}.rubyforge.org.conf"
   end
+  
   def wiki_dir
     "#{WWW_DIR_PREFIX}#{unix_group_name}/wiki/"
   end
+  
+  # Note that this method means that the Rails app must be running on a server
+  # that has access to the GForge application's directory tree.
+  def verify_existence_of_gforge_file_directory!
+    FileUtils.mkdir_p group_file_directory unless File.exists? group_file_directory
+  end
+  
   def first_admin
     user_group.select {|ug| ug.admin_flags.strip == 'A' }.first.user
   end
+  
   def provisioned?
     File.exists? vhost_root
   end
+  
   def reset_vhost_permissions
     cmd = "chmod -R g+ws #{vhost_root}"
     puts "#{Time.now}: Running: #{cmd}"
     `#{cmd}`
   end
+  
   def provision
     add_group_and_user
     provision_docroot
@@ -100,6 +114,7 @@ class Group < ActiveRecord::Base
     end
     provision_vhost
   end
+  
   def add_group_and_user
     admin = first_admin.user_name
     `/usr/sbin/groupadd #{unix_group_name}`
@@ -109,6 +124,7 @@ class Group < ActiveRecord::Base
       `#{cmd}`
     end
   end
+  
   def gitify
     public_keys = find_member_public_keys
     add_keys_to_keydir(public_keys)
@@ -116,11 +132,13 @@ class Group < ActiveRecord::Base
     add_group_block_to_gitosis_config_file(public_keys)
     GForge.new.commit_and_push_gitosis_conf 
   end
+  
   def add_group_block_to_gitosis_config_file(keys)
    gc = GitosisConf.new("/home/tom/gitosis-admin/gitosis.conf")
    gc.add_or_update(unix_group_name, keys.collect { |k,v| k } )
    gc.write
   end
+  
   def add_keys_to_keydir(public_keys)
     public_keys.each do |signature, keyblob|
       File.open(keydir_path_for(signature), "w") do |f|
@@ -129,9 +147,11 @@ class Group < ActiveRecord::Base
       FileUtils.chown("tom", "tom", keydir_path_for(signature))
     end
   end
+  
   def keydir_path_for(signature)
     File.join(KEYDIR, signature + ".pub")
   end
+  
   def show_steps_to_cvs2svn(clear=false)
     puts "Run these commands if they look right"
     puts "cd /tmp"
@@ -157,6 +177,7 @@ class Group < ActiveRecord::Base
     puts "Then do a:"
     puts "#{APACHECTL} graceful"
   end
+  
   def show_steps_to_svn2git(clear=false)
     puts "Run these commands if they look right"
     puts "psql -U gforge -c \"update groups set use_scm = 1 where unix_group_name = '#{unix_group_name}'\""
@@ -168,6 +189,7 @@ class Group < ActiveRecord::Base
       puts "rm -rf #{svn_root}"
     end
   end
+  
   def find_member_public_keys
     gforge_public_key_separator = "###"
     valid_keys = {}
@@ -183,9 +205,11 @@ class Group < ActiveRecord::Base
     end
     valid_keys
   end
+  
   def cvs_root
     "/var/cvs/#{unix_group_name}/"
   end
+  
   def wikify
     FileUtils.mkdir_p("#{wiki_dir}html")
     FileUtils.copy("/home/tom/support/trunk/support/usemod_wiki_template/wiki.pl", wiki_dir)
@@ -193,6 +217,7 @@ class Group < ActiveRecord::Base
     FileUtils.chown("webuser", "webgroup", "#{wiki_dir}html")
     `chmod g+s #{wiki_dir}html`
   end
+  
   def cvsify
     FileUtils.mkdir(cvs_root) 
     system "cvs -d#{cvs_root} init"
@@ -203,17 +228,20 @@ class Group < ActiveRecord::Base
     system "chmod -R g+ws #{cvs_root}"
     FileUtils.chmod(0777, "#{cvs_root}/CVSROOT/history")
   end
+  
   def svnify
     `rm -rf /var/svn/#{unix_group_name}` if File.exist?("/var/svn/#{unix_group_name}")
     `/usr/local/bin/svnadmin create --fs-type fsfs /var/svn/#{unix_group_name}`  
     `chown -R #{first_admin.user_name}:#{unix_group_name} /var/svn/#{unix_group_name} `  
     `chmod -R g+ws /var/svn/#{unix_group_name} `  
   end
+  
   def provision_vhost
     File.open(vhost_conf, "w") do |f| 
       f.write(File.read("/home/tom/support/trunk/support/httpd.entry.template").gsub(/projectname/, unix_group_name))
     end
   end
+  
   def provision_docroot
     FileUtils.mkdir_p(vhost_root)
     FileUtils.copy(ROBOTS_FILE, vhost_root)
@@ -222,18 +250,23 @@ class Group < ActiveRecord::Base
     `chmod -R 775 #{vhost_root}`
     `chmod -R g+ws #{vhost_root}`
   end
+  
   def create_default_homepage
     File.open("#{vhost_root}index.html", "w") {|f| f.syswrite(File.read("/home/tom/support/trunk/support/default_project_vhost_index.html").gsub(/\$project/, unix_group_name)) }
   end
+  
   def vhost_root
     "/var/www/gforge-projects/#{unix_group_name}/"
   end
+  
   def gforge_files_root
     "/var/www/gforge-files/#{unix_group_name}/"
   end
+  
   def svn_root
     "/var/svn/#{unix_group_name}"
   end
+  
   def scm_root
     if plugins.includes_svn?
       SVNROOT
@@ -243,11 +276,13 @@ class Group < ActiveRecord::Base
       GITROOT
     end
   end
+  
   def show_move_in_svn_repo_commands
     puts "mv #{unix_group_name}-repos #{svn_root}"
     puts "chown -R #{first_admin.user_name}:#{unix_group_name} #{svn_root}"  
     puts "chmod -R g+ws #{svn_root}"
   end
+  
   def show_steps_to_resetsvn
     puts "Run these commands if they look right"
     puts "cd /tmp"
@@ -257,6 +292,7 @@ class Group < ActiveRecord::Base
     show_steps_to_move_in_svn_repo
     puts "cd -"
   end
+  
   def show_steps_to_delete
     puts "Mark project as deleted in web interface"
     puts "Delete mailing lists" if `egrep "#{unix_group_name}.*confirm" /etc/aliases`.strip.size > 0
@@ -278,5 +314,14 @@ class Group < ActiveRecord::Base
     puts "/usr/sbin/groupdel #{unix_group_name}"
     puts "#{APACHECTL} restart"
   end
+
+  def group_file_directory
+    if defined? GFORGE_WWW_FILE_DIRECTORY
+      File.join GFORGE_WWW_FILE_DIRECTORY, unix_group_name
+    else
+      raise "This method can only be used in the context of a Rails app.  TODO, FIXME, ETC."
+    end
+  end
+  
 end
 

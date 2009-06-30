@@ -7,7 +7,6 @@ class ProcessorsControllerTest < ActionController::TestCase
   end
 
   test "index should work" do
-    Processor.make
     get :index
     assert_response :success
     assert_match "i386", @response.body

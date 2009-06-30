@@ -5,6 +5,7 @@ class Release < ActiveRecord::Base
 
   belongs_to :package
   belongs_to :released_by, :class_name => 'User', :foreign_key => 'released_by'
+  has_many :files, :class_name => 'FrsFile'
   
   def externalize
     self.attributes.inject({}) do |memo, a| 

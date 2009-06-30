@@ -49,8 +49,10 @@ class ActiveSupport::TestCase
   
   def setup_seed_data
     FrsStatus.add FrsStatus::ACTIVE, "Active"
+    FileType.add 9999, "Other"
     CountryCode.add 'Chad', 'TD'
     License.make
+    Processor.make
     SupportedLanguage.make
     UserType.make
   end

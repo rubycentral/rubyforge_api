@@ -21,7 +21,7 @@ SupportedLanguage.blueprint do
 end
 
 Group.blueprint do
-  unix_group_name Faker::Internet.user_name
+  unix_group_name Faker.letterify("??????")
   license { License.first }
 end
 
