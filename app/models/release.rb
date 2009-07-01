@@ -20,5 +20,6 @@ class Release < ActiveRecord::Base
   
   def set_defaults
     self.release_date = Time.now.to_i 
+    self.status_id = FrsStatus::ACTIVE unless self.status_id && self.status_id != 0
   end
 end
