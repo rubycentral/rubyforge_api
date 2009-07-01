@@ -9,7 +9,7 @@ class FilesController < ApplicationController
     File.open(File.join(group.group_file_directory, filename), "w") do |f|
       f.syswrite contents
     end
-    release.files.create(params[:file])
+    release.files.create!(params[:file].merge({:file_size => File.size(File.join(group.group_file_directory, filename))}))
     head :created
   end
   

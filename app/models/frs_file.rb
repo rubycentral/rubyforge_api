@@ -20,10 +20,18 @@ class FrsFile < ActiveRecord::Base
   belongs_to :file_type, :foreign_key => 'type_id'
   belongs_to :processor
   belongs_to :release
+  
+  before_validation_on_create :set_defaults
 
   def hours_old
     (Time.now.to_i - release_time)/3600
   end
 
+  private
+  
+  def set_defaults
+    self.release_time = Time.now.to_i
+    self.post_date = Time.now.to_i
+  end
 end
 

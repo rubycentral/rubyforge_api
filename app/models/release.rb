@@ -7,10 +7,18 @@ class Release < ActiveRecord::Base
   belongs_to :released_by, :class_name => 'User', :foreign_key => 'released_by'
   has_many :files, :class_name => 'FrsFile', :dependent => :destroy
   
+  before_validation_on_create :set_defaults
+  
   def externalize
     self.attributes.inject({}) do |memo, a| 
       memo[a[0]] = a[1]
       memo
     end
+  end
+  
+  private
+  
+  def set_defaults
+    self.release_date = Time.now.to_i 
   end
 end
