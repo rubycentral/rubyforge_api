@@ -34,5 +34,9 @@ class UserGroup < ActiveRecord::Base
     self.release_flags = 1
     save
   end
+  
+  def group_admin?
+    admin_flags.strip == 'A'
+  end
 end
 

@@ -63,8 +63,10 @@ class Group < ActiveRecord::Base
   has_many :user_group
   has_many :users, :through => :user_group
   has_many :forum_group
-  has_many :forums, :through => :forum_group
+  # FIXME - this association isn't right
+  # has_many :forums, :through => :forum_group
   has_many :packages
+  has_many :news_bytes
   has_many :roles
 
   belongs_to :license, :foreign_key => 'license'
@@ -73,6 +75,10 @@ class Group < ActiveRecord::Base
   named_scope :pending, :conditions => {:status => 'P'}
   named_scope :needs_vhost_permissions_reset, :conditions => {:needs_vhost_permissions_reset => true}
   named_scope :uses_git, :conditions => "groups.group_id = group_plugin.group_id and group_plugin.plugin_id = plugins.plugin_id and plugins.plugin_name = 'scmgit'", :joins => ", plugins, group_plugin"
+  
+  def self.system_news_group
+    Group.find(3)
+  end
   
   def vhost_conf
     "#{HTTPD_CONF_DIR}#{unix_group_name}.rubyforge.org.conf"

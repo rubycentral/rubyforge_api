@@ -42,6 +42,7 @@
 class User < ActiveRecord::Base
   
   set_primary_key "user_id"
+  
   has_many :user_group
   has_many :groups, :through => :user_group
   belongs_to :supported_language, :foreign_key => 'language'
@@ -52,6 +53,7 @@ class User < ActiveRecord::Base
     end
   end
   has_many :forum_messages, :class_name => "Forum", :foreign_key => "posted_by"
+  has_many :news_bytes, :foreign_key => "submitted_by"
   has_many :snippets, :foreign_key => 'created_by'
   has_many :snippet_packages, :foreign_key => 'created_by'
   named_scope :active, :conditions => {:status => "A"}
