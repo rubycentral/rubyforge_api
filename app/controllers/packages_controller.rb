@@ -8,8 +8,10 @@ class PackagesController < ApplicationController
   
   def create
     ensure_has_package_create || access_denied
-    group.packages.create!(params[:package])
-    head :created
+    @package = group.packages.create!(params[:package])
+    respond_to do |wants| 
+      wants.js {render :json => @package, :status => :created, :location => group_package_url(group, @package)}
+    end
   end
   
   def destroy

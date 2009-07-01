@@ -18,7 +18,8 @@ class ReleasesControllerTest < ActionController::TestCase
     assert_difference "Release.count" do
       post :create, :group_id => @group.id, :package_id => @package.id, :release => {:name => "testrelease"}
     end
+    assert_equal response_json["name"], "testrelease"
+    assert_equal response_json["release_id"], Release.last.id
   end
-  
 
 end

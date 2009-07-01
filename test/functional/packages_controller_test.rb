@@ -10,6 +10,8 @@ class PackagesControllerTest < ActionController::TestCase
     assert_difference 'Package.count' do
       create_package_via_post
     end
+    assert_equal response_json["package"]["name"], "apples"
+    assert_equal response_json["package"]["package_id"], Package.last.id
   end
   
   test "index works" do
