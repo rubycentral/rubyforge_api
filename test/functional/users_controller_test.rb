@@ -10,6 +10,7 @@ class UsersControllerTest < ActionController::TestCase
   test "show should work" do
     get :show, :id => @user.id
     assert_response :success
+    assert_equal response_json["user_name"], @user.user_name
   end
   
 end

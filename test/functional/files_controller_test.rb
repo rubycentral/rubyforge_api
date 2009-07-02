@@ -4,8 +4,8 @@ class FilesControllerTest < ActionController::TestCase
   
   def setup
     setup_seed_data_with_group_and_admin_user
-    @package = @group.packages.create!(:name => "fiddle", :status_id => FrsStatus::ACTIVE)
-    @release = @package.releases.create(:notes => "foo", :released_by => @user, :status_id => FrsStatus::ACTIVE)
+    @package = @group.packages.create!(:name => "fiddle")
+    @release = @package.releases.create(:notes => "foo", :released_by => @user)
   end
   
   test "create action" do
@@ -15,10 +15,14 @@ class FilesControllerTest < ActionController::TestCase
       assert_difference 'FrsFile.count' do
         assert_difference "@release.files.count" do
           post :create, :group_id => @group.id, :package_id => @package.id, :release_id => @release.id, :contents => filecontents, :file => {:filename => filename, :processor_id => Processor.first.id, :type_id => FileType.first.id}
+          assert_equal File.read(File.join(@group.group_file_directory, filename)), filecontents
+          assert_equal FrsFile.last.filename, filename
+          assert_equal FrsFile.last.file_size, File.size(File.join(@group.group_file_directory, filename))
+          assert_equal FrsFile.last.release, @release
+          assert_equal FrsFile.last.processor, Processor.first
         end
       end
     end
-    assert_equal File.read(File.join(@group.group_file_directory, "test.txt")), filecontents
   end
   
   def teardown 

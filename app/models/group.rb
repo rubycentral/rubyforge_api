@@ -76,6 +76,10 @@ class Group < ActiveRecord::Base
   named_scope :needs_vhost_permissions_reset, :conditions => {:needs_vhost_permissions_reset => true}
   named_scope :uses_git, :conditions => "groups.group_id = group_plugin.group_id and group_plugin.plugin_id = plugins.plugin_id and plugins.plugin_name = 'scmgit'", :joins => ", plugins, group_plugin"
   
+  def self.force_create_system_news_group(license)
+    ActiveRecord::Base.connection.insert("insert into groups (group_id, unix_group_name, license) values (3, 'news', #{license.id})")
+  end
+  
   def self.system_news_group
     Group.find(3)
   end

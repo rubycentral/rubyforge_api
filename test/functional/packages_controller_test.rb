@@ -16,21 +16,21 @@ class PackagesControllerTest < ActionController::TestCase
   
   test "index works" do
     create_package_via_post
-    get :index, :group_id => Group.first
+    get :index, :group_id => @group
     assert_equal "apples", JSON.parse(@response.body).first["package"]["name"]
   end
   
   test "can destroy package" do
     create_package_via_post
-    Package.last.releases.create(:name => "foo", :released_by => User.first, :status_id => FrsStatus::ACTIVE)
+    Package.last.releases.create(:name => "foo", :released_by => User.first)
     assert_difference "Package.count", -1 do
-      delete :destroy, :group_id => Group.first.id, :id => Package.last.id
+      delete :destroy, :group_id => @group.id, :id => Package.last.id
     end
   end
   
   private
   
   def create_package_via_post
-    post :create, {:package => {:name => "apples", :status_id => FrsStatus::ACTIVE}, :group_id => @group.id}
+    post :create, {:package => {:name => "apples"}, :group_id => @group.id}
   end
 end

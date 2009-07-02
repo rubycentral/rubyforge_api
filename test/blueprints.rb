@@ -27,7 +27,7 @@ end
 
 Role.blueprint do
   role_name "Admin"
-  group { Group.first }
+  group { Group.find(:first, :conditions => "group_id != 3") }
 end
 
 Processor.blueprint do

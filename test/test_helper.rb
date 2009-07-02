@@ -57,6 +57,7 @@ class ActiveSupport::TestCase
     FileType.add 9999, "Other"
     CountryCode.add 'Chad', 'TD'
     License.make
+    Group.force_create_system_news_group(License.first) unless Group.exists?(3)
     Processor.make
     SupportedLanguage.make
     UserType.make
@@ -67,7 +68,8 @@ class ActiveSupport::TestCase
   end
   
   def setup_group
-    @group = Group.make
+    ActiveRecord::Base.connection.execute("insert into groups (group_id, unix_group_name, license) values (#{4+(rand*1000).to_i}, '#{Faker.letterify("??????")}', #{License.first.id})")
+    @group = Group.last
   end
   
   def setup_user_and_basic_auth_for_user
