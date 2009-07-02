@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   end
   
   # see http://www.codyfauser.com/2008/7/4/rails-http-status-code-to-symbol-mapping
+  # also, the spec: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
   def unauthorized
     render :text => "Unauthorized", :content_type => "text/plain", :status => :unauthorized
   end
