@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
     access_denied unless current_user.user_group.find_by_group_id(group.id).group_admin?
   end
   
+  # see http://www.codyfauser.com/2008/7/4/rails-http-status-code-to-symbol-mapping
   def unauthorized
     render :text => "Unauthorized", :content_type => "text/plain", :status => :unauthorized
   end
