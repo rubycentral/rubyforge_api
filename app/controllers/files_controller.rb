@@ -1,7 +1,8 @@
 class FilesController < ApplicationController
   
+  before_filter :require_group_package_create
+  
   def create
-    ensure_has_package_create || access_denied
     release = group.packages.find_by_package_id(params[:package_id]).releases.find_by_release_id(params[:release_id])
     group.verify_existence_of_gforge_file_directory!
     contents = params.delete(:contents)

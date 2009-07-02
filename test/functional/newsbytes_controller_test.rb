@@ -24,6 +24,12 @@ class NewsBytesControllerTest < ActionController::TestCase
     end
   end
   
+  test "unauthorized" do
+    @user.user_group.first.update_attribute(:admin_flags, '')
+    create_news_byte_via_post
+    assert_response :forbidden
+  end
+   
   private
   
   def create_news_byte_via_post

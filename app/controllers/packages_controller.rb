@@ -1,5 +1,7 @@
 class PackagesController < ApplicationController
   
+  before_filter :require_group_package_create, :only => [:create, :destroy]
+  
   def index
     respond_to do |wants| 
       wants.js {render :json => group.packages.to_json }
@@ -7,7 +9,6 @@ class PackagesController < ApplicationController
   end
   
   def create
-    ensure_has_package_create || access_denied
     @package = group.packages.create!(params[:package])
     respond_to do |wants| 
       wants.js {render :json => @package, :status => :created, :location => group_package_url(group, @package)}
@@ -15,7 +16,6 @@ class PackagesController < ApplicationController
   end
   
   def destroy
-    ensure_has_package_create || access_denied
     group.packages.find_by_package_id(params[:id]).destroy
     head :success
   end
