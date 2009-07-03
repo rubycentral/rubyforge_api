@@ -73,6 +73,10 @@ class User < ActiveRecord::Base
     hash
   end
   
+  def member_of_group?(group)
+    user_group.exists?(:group_id => group.id)
+  end
+  
   def self.authenticate(username, clear_text_password)
     User.find_by_user_name_and_user_pw(username, Digest::MD5.hexdigest(clear_text_password))
   end

@@ -44,11 +44,11 @@ class ApplicationController < ActionController::Base
   end
   
   def require_group_package_create
-    access_denied unless current_user.user_group.find_by_group_id(group.id).has_release_permissions?
+    access_denied unless current_user.member_of_group?(group) && current_user.user_group.find_by_group_id(group.id).has_release_permissions?
   end
 
   def require_group_admin
-    access_denied unless current_user.user_group.find_by_group_id(group.id).group_admin?
+    access_denied unless current_user.member_of_group?(group) && current_user.user_group.find_by_group_id(group.id).group_admin?
   end
   
   # see http://www.codyfauser.com/2008/7/4/rails-http-status-code-to-symbol-mapping

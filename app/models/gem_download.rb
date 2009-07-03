@@ -9,6 +9,7 @@
 #
 
 class GemDownload < ActiveRecord::Base
+  
   def self.update_gems_features_box
     datestr = (Time.now - (60*60*24*7)).strftime("%d-%b-%y")
     sql = "select gem_name, count(gem_name) as total from gem_downloads where downloaded_at > '#{datestr}' group by gem_name order by total desc limit 15"
@@ -16,6 +17,7 @@ class GemDownload < ActiveRecord::Base
       f.write(ActiveRecord::Base.connection.query(sql).inject("") {|memo, r| "#{memo}\n(#{number_with_delimiter(r[1].to_i)}) #{r[0].split(".gem")[0]}<br/>" }) 
     end
   end
+  
   def self.update_overall_gem_stats
     sql = "select gem_name, count(gem_name) as total from gem_downloads group by gem_name"
     stats = {}
