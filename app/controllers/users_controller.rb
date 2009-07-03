@@ -2,8 +2,7 @@ class UsersController < ApplicationController
 
   def show
     respond_to do |wants| 
-      # TODO add :include => :groups
-      wants.js {render :json => user.to_json(:except => [:unix_pw, :email, :user_pw, :confirm_hash]) }
+      wants.js {render :json => user.to_json(:include => user.groups.active, :except => [:unix_pw, :email, :user_pw, :confirm_hash]) }
     end
   end
 
