@@ -5,6 +5,8 @@ class ReleasesController < ApplicationController
   def index
     respond_to do |wants| 
       # FIXME - don't show hidden releases if user is not a member of this project
+      # TODO - replace this externalize thing with to_json parameters.  It's trick since we don't want to return the full
+      # released_by object, e.g., the User along with email and password
       wants.js {render :json => package.releases.map(&:externalize).to_json}
     end
   end
