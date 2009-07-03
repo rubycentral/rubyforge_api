@@ -4,7 +4,7 @@ class PackagesController < ApplicationController
   
   def index
     respond_to do |wants| 
-      wants.js {render :json => group.packages.to_json }
+      wants.js {render :json => group.packages }
     end
   end
   
