@@ -2,7 +2,8 @@ class UsersController < ApplicationController
 
   def show
     respond_to do |wants| 
-      wants.js {render :json => user.externalize.to_json }
+      # TODO add :include => :groups
+      wants.js {render :json => user.to_json(:except => [:unix_pw, :email, :user_pw, :confirm_hash]) }
     end
   end
 

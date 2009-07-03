@@ -100,9 +100,6 @@ class User < ActiveRecord::Base
   def home_directory
     "/home/#{user_name}"
   end
-  
-  def externalize
-    self.attributes.inject({}) {|memo, a| memo[a[0]] = a[1] unless %w{unix_pw user_pw email}.include?(a[0]); memo }  
-  end
+
 end
 
