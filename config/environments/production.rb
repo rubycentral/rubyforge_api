@@ -28,3 +28,5 @@ config.action_view.cache_template_loading            = true
 # config.threadsafe!
 
 GFORGE_WWW_FILE_DIRECTORY = "/var/www/gforge-files/"
+
+BETA_USER_LIST = %w{tom chad ahoward dblack}

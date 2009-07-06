@@ -17,3 +17,5 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 
 GFORGE_WWW_FILE_DIRECTORY = File.join RAILS_ROOT, "tmp", "gforge-files"
+
+BETA_USER_LIST = %w{tom chad dblack}

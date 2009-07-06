@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
   helper :all 
   filter_parameter_logging :password
 
-  before_filter :require_not_overeager
-  before_filter :require_logged_in
+  before_filter :require_in_beta_user_list, :require_not_overeager, :require_logged_in
   around_filter :record_api_request
 
   def current_user
@@ -28,6 +27,12 @@ class ApplicationController < ActionController::Base
       Group.find(params[:group_id] || params[:id])
     else
       Group.find_by_unix_group_name(params[:group_id] || params[:id])
+    end
+  end
+  
+  def require_in_beta_user_list
+    if defined? BETA_USER_LIST
+      unauthorized unless BETA_USER_LIST.include? current_user.user_name
     end
   end
   
