@@ -208,7 +208,7 @@ class Group < ActiveRecord::Base
       user.authorized_keys.split(gforge_public_key_separator).each do |key|
         parts = key.split(" ")
         signature = parts.last
-        if signature =~ /^([a-zA-Z])+.*\@([a-zA-Z])+.*$/
+        if signature =~ /^([a-zA-Z])+.*\@([a-zA-Z0-9])+.*$/
           valid_keys[signature] = key
         end
       end
