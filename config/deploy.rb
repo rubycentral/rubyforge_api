@@ -1,3 +1,5 @@
+require 'mongrel_cluster/recipes'
+
 set :application, "api"
 
 set :scm, :git
@@ -7,6 +9,7 @@ set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
 set :deploy_to, "/var/www/gforge-projects/api/"
 
+set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
 set :use_sudo, false
 set :user,  "tom"
 set :group, "api"

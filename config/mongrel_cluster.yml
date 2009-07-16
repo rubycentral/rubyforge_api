@@ -1,0 +1,10 @@
+--- 
+user: tom
+cwd: /var/www/gforge-projects/api/current
+log_file: log/mongrel.log
+port: "8000"
+environment: production
+group: api
+address: 127.0.0.1
+pid_file: tmp/pids/mongrel.pid
+servers: 1
