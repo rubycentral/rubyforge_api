@@ -22,11 +22,22 @@ class ApplicationController < ActionController::Base
     current_user.api_requests.count_recent > 60
   end
 
+  # TODO do some meta-programmer thing to reduce this duplication
   def group
-    @group ||= if (params[:group_id] || params[:id]) =~ /^\d+$/
-      Group.find(params[:group_id] || params[:id])
+    group_id = params[:group_id] || params[:id]
+    @group ||= if group_id =~ /^\d+$/
+      Group.find group_id
     else
-      Group.find_by_unix_group_name(params[:group_id] || params[:id])
+      Group.find_by_unix_group_name group_id
+    end
+  end
+  
+  def user
+    user_id = params[:user_id] || params[:id]
+    @user ||= if user_id =~ /^\d+$/
+      User.find user_id
+    else
+      User.find_by_user_name user_id
     end
   end
   

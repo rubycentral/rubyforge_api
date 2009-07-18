@@ -7,6 +7,8 @@ ActionController::Routing::Routes.draw do |map|
       end
     end
   end
-  map.resources :users
+  map.resources :users do |users_map|
+    users_map.resources :groups
+  end
   map.resources :processors
 end
