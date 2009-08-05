@@ -26,6 +26,7 @@ class PackagesControllerTest < ActionController::TestCase
     assert_difference "Package.count", -1 do
       delete :destroy, :group_id => @group.id, :id => Package.last.id
     end
+    assert_response :success
   end
   
   private
