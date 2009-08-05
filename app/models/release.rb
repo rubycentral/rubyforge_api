@@ -9,9 +9,14 @@ class Release < ActiveRecord::Base
   
   before_validation_on_create :set_defaults
   
+  # TODO replace this with to_json - but without returning the released_by user's unix_pw etc
   def externalize
     self.attributes.inject({}) do |memo, a| 
-      memo[a[0]] = a[1]
+      if a[0] == "release_date"
+        memo[a[0]] = Time.at(a[1]).to_s(:db)
+      else
+        memo[a[0]] = a[1]
+      end
       memo
     end
   end
