@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   
   helper :all 
-  filter_parameter_logging :password
+  filter_parameter_logging :password, :contents
 
   before_filter :require_logged_in, :require_in_beta_user_list, :require_not_overeager
   around_filter :record_api_request
