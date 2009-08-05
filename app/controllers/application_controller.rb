@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user_too_eager
-    current_user.api_requests.count_recent > 60
+    current_user.api_requests.count_recent > 3600
   end
 
   # TODO do some meta-programmer thing to reduce this duplication

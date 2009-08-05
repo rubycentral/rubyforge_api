@@ -17,7 +17,7 @@ class PackagesController < ApplicationController
   
   def destroy
     group.packages.find_by_package_id(params[:id]).destroy
-    head :success
+    head :created
   end
 
 end
