@@ -11,9 +11,8 @@ set :deploy_to, "/var/www/gforge-projects/api/"
 
 set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
 set :use_sudo, false
-set :user,  "tom"
-set :group, "api"
-set :runner, "tom"
+set :user,  "webuser"
+set :group, "webgroup"
 
 server "rubyforge.org", :app, :web
 role :db, "rubyforge.org", :primary => true
