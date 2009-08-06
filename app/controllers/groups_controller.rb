@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   
   def index
     respond_to do |wants|
-      wants.js {render :json => user.groups }
+      wants.js {render :json => (user || current_user).groups.active }
     end
   end
   
