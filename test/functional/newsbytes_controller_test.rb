@@ -16,6 +16,7 @@ class NewsBytesControllerTest < ActionController::TestCase
         assert_equal 0, NewsByte.last.is_approved
         assert_equal @user, NewsByte.last.submitted_by
         assert_equal NewsByte.last.forum_group, ForumGroup.last
+        assert NewsByte.last.post_date && NewsByte.last.post_date != 0
         assert_match /merry/, ForumGroup.last.forum_name
         assert_match /Merry/, ForumGroup.last.description
         assert_equal 0, ForumGroup.last.allow_anonymous
