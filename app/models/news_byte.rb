@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20090605012055
+#
+# Table name: news_bytes
+#
+#  id           :integer         not null, primary key
+#  group_id     :integer         default(0), not null
+#  submitted_by :integer         default(0), not null
+#  is_approved  :integer         default(0), not null
+#  post_date    :integer         default(0), not null
+#  forum_id     :integer         default(0), not null
+#  summary      :text
+#  details      :text
+#
+
 class NewsByte < ActiveRecord::Base
   
   belongs_to :group

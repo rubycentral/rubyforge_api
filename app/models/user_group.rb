@@ -1,8 +1,9 @@
 # == Schema Information
+# Schema version: 20090605012055
 #
 # Table name: user_group
 #
-#  user_group_id  :integer         not null
+#  user_group_id  :integer         not null, primary key
 #  user_id        :integer         default(0), not null
 #  group_id       :integer         default(0), not null
 #  admin_flags    :string(16)      default(""), not null

@@ -1,4 +1,5 @@
 # == Schema Information
+# Schema version: 20090605012055
 #
 # Table name: frs_package
 #

@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20090605012055
+#
+# Table name: frs_release
+#
+#  release_id   :integer         not null, primary key
+#  package_id   :integer         default(0), not null
+#  name         :text
+#  notes        :text
+#  changes      :text
+#  status_id    :integer         default(0), not null
+#  preformatted :integer         default(0), not null
+#  release_date :integer         default(0), not null
+#  released_by  :integer         default(0), not null
+#
+
 class Release < ActiveRecord::Base
   
   set_table_name 'frs_release'

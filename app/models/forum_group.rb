@@ -1,4 +1,5 @@
 # == Schema Information
+# Schema version: 20090605012055
 #
 # Table name: forum_group_list
 #

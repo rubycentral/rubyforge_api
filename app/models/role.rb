@@ -1,3 +1,13 @@
+# == Schema Information
+# Schema version: 20090605012055
+#
+# Table name: role
+#
+#  role_id   :integer         not null, primary key
+#  group_id  :integer         not null
+#  role_name :text
+#
+
 class Role < ActiveRecord::Base
 
   set_table_name 'role'

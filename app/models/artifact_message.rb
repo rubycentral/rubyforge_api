@@ -15,7 +15,7 @@ class ArtifactMessage < ActiveRecord::Base
 
   set_table_name 'artifact_message'
   
-  #belongs_to :artifact
+  belongs_to :artifact
   belongs_to :submitted_by, :class_name => 'User', :foreign_key => 'submitted_by'
   
 end

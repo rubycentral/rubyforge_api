@@ -1,4 +1,5 @@
 # == Schema Information
+# Schema version: 20090605012055
 #
 # Table name: users
 #
@@ -44,6 +45,7 @@ class User < ActiveRecord::Base
   set_primary_key "user_id"
   
   has_many :user_group
+  has_many :artifacts, :foreign_key => 'submitted_by', :dependent => :destroy
   has_many :groups, :through => :user_group
   belongs_to :supported_language, :foreign_key => 'language'
   belongs_to :user_type, :foreign_key => 'type_id'

@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20090605012055
+#
+# Table name: snippet
+#
+#  snippet_id  :integer         not null, primary key
+#  created_by  :integer         default(0), not null
+#  name        :text
+#  description :text
+#  type        :integer         default(0), not null
+#  language    :integer         default(0), not null
+#  license     :text            default(""), not null
+#  category    :integer         default(0), not null
+#
+
 class Snippet < ActiveRecord::Base
   set_table_name 'snippet'
   set_primary_key 'snippet_id'
