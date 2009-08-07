@@ -25,5 +25,6 @@ class ArtifactGroupList < ActiveRecord::Base
   set_primary_key 'group_artifact_id'
   
   belongs_to :group
+  has_many :artifacts, :foreign_key => 'group_artifact_id' # TODO probably dependent => :destroy 
 
 end
