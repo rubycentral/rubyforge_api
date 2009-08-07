@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class ArtifactTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  test "syntax" do
+    assert Artifact.new
   end
 end

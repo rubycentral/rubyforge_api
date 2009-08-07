@@ -24,6 +24,7 @@ class Artifact < ActiveRecord::Base
   set_primary_key 'artifact_id'
   
   has_many :artifact_messages, :dependent => :destroy
+  belongs_to :artifact_group_list, :foreign_key => 'group_artifact_id'
   belongs_to :submitted_by, :class_name => 'User', :foreign_key => 'submitted_by'
   
 end
