@@ -21,6 +21,7 @@ class Forum < ActiveRecord::Base
   set_primary_key "msg_id"
   
   belongs_to :forum_group, :class_name => 'ForumGroup', :foreign_key => 'group_forum_id'
+  belongs_to :posted_by, :class_name => 'User', :foreign_key => 'posted_by'
 
   def delete_all_messages
     sql = "delete from forum where group_forum_id = #{self.group_forum_id}"
