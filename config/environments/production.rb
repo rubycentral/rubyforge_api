@@ -29,6 +29,6 @@ config.action_view.cache_template_loading            = true
 
 GFORGE_WWW_FILE_DIRECTORY = "/var/www/gforge-files/"
 
-BETA_USER_LIST = %w{tom chadfowler ahoward dblack rich 7rans drbrain zenspider}
+BETA_USER_LIST = %w{tom chadfowler ahoward dblack rich drbrain zenspider transami}
 
 
