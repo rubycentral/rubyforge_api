@@ -222,6 +222,40 @@ class Group < ActiveRecord::Base
     "/var/cvs/#{unix_group_name}/"
   end
   
+  def git_root
+    "/var/git/repositories/#{unix_group_name}.git"
+  end
+  
+  def scm_disk_space_usage
+    if plugins.includes_cvs?
+      disk_space_used cvs_root
+    elsif plugins.includes_svn?
+      disk_space_used svn_root
+    elsif plugins.includes_git? && File.exists?(git_root)
+      disk_space_used git_root
+    else
+      0
+    end
+  rescue
+    0
+  end
+  
+  def virtual_host_space_usage
+    disk_space_used vhost_root
+  end
+  
+  def release_files_space_usage
+    if File.exists?(group_file_directory)
+      disk_space_used group_file_directory
+    else
+      0
+    end
+  end
+  
+  def disk_space_used(directory)
+    `du -sk #{directory}`.scan(/(\d+)/).flatten.first.to_i
+  end
+  
   def wikify
     FileUtils.mkdir_p("#{wiki_dir}html")
     FileUtils.copy("/home/tom/support/trunk/support/usemod_wiki_template/wiki.pl", wiki_dir)
@@ -271,8 +305,17 @@ class Group < ActiveRecord::Base
     "/var/www/gforge-projects/#{unix_group_name}/"
   end
   
+  # TODO replace usages of this with group_file_directory
   def gforge_files_root
     "/var/www/gforge-files/#{unix_group_name}/"
+  end
+  
+  def group_file_directory
+    if defined? GFORGE_WWW_FILE_DIRECTORY
+      File.join GFORGE_WWW_FILE_DIRECTORY, unix_group_name
+    else
+      raise "This method can only be used in the context of a Rails app.  TODO, FIXME, ETC."
+    end
   end
   
   def svn_root
@@ -327,13 +370,5 @@ class Group < ActiveRecord::Base
     puts "#{APACHECTL} restart"
   end
 
-  def group_file_directory
-    if defined? GFORGE_WWW_FILE_DIRECTORY
-      File.join GFORGE_WWW_FILE_DIRECTORY, unix_group_name
-    else
-      raise "This method can only be used in the context of a Rails app.  TODO, FIXME, ETC."
-    end
-  end
-  
 end
 
