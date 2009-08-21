@@ -60,15 +60,16 @@ class Group < ActiveRecord::Base
     end
   end
   
-  has_many :group_histories
-  has_many :user_group
+  has_many :group_histories, :dependent => :destroy
+  has_many :user_group, :dependent => :destroy
   has_many :users, :through => :user_group
   has_many :forum_group
   # FIXME - this association isn't right
   # has_many :forums, :through => :forum_group
-  has_many :packages
+  has_many :packages, :dependent => :destroy
   has_many :news_bytes
   has_many :roles
+  has_many :disk_usages, :dependent => :destroy
 
   belongs_to :license, :foreign_key => 'license'
   
