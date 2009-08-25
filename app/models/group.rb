@@ -64,6 +64,7 @@ class Group < ActiveRecord::Base
   has_many :user_group, :dependent => :destroy
   has_many :users, :through => :user_group
   has_many :forum_group
+  has_many :gem_namespace_ownerships, :dependent => :destroy
   # FIXME - this association isn't right
   # has_many :forums, :through => :forum_group
   has_many :packages, :dependent => :destroy
