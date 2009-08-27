@@ -1,6 +1,6 @@
 class FilesController < ApplicationController
   
-  before_filter :require_group_package_create
+  before_filter :require_group_package_create_authorization
   
   def create
     release = group.packages.find_by_package_id(params[:package_id]).releases.find_by_release_id(params[:release_id])

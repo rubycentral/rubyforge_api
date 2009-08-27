@@ -1,6 +1,6 @@
 class ReleasesController < ApplicationController
 
-  before_filter :require_group_package_create, :only => [:create]
+  before_filter :require_release_create_authorization, :only => :create
 
   def index
     respond_to do |wants| 
@@ -14,10 +14,14 @@ class ReleasesController < ApplicationController
   def create
     release_params = params[:release].merge({:released_by => current_user})
     release_params[:release_date] = Time.parse(release_params[:release_date])
-    @release = group.packages.find_by_package_id(params[:package_id]).releases.create!(release_params)
+    @release = package.releases.create!(release_params)
     respond_to do |wants| 
-      wants.js {render :json => @release.externalize, :status => :created, :location => group_package_release_url(group, package, @release)}
+      wants.js {render :json => @release.externalize, :status => :created, :location => release_url(@release)}
     end
+  end
+  
+  def require_release_create_authorization
+    require_group_package_create_authorization(package.group)
   end
   
 end

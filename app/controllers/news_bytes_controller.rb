@@ -8,7 +8,7 @@ class NewsBytesController < ApplicationController
       @news_byte = group.news_bytes.create!(params[:news_byte].merge(:forum_id => @news_byte_forum.id, :submitted_by => current_user))
     end
     respond_to do |wants| 
-      wants.js {render :json => @news_byte, :status => :created, :location => group_news_byte_url(group, @news_byte)}
+      wants.js {render :json => @news_byte, :status => :created, :location => news_byte_url(@news_byte)}
     end
   end
   

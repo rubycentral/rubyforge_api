@@ -1,9 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :groups, :has_many => [:news_bytes] do |groups_map|
-    groups_map.resources :packages do |packages_map|
-      packages_map.resources :releases, :has_many => [:files]
-    end
+  parent_actions = [:create, :new, :index]
+
+  map.resources :groups do |group|
+    group.resource :news_bytes, :only => parent_actions
+    group.resources :packages, :only => parent_actions
   end
-  map.resources :users, :has_many => [:groups]
+  
+  map.resources :packages, :except => parent_actions do |package|
+    package.resources :releases, :only => parent_actions
+  end
+  
+  map.resources :releases, :except => parent_actions do |release|
+    release.resources :files
+  end
+  
+  map.resources :news_bytes, :except => parent_actions
+  
+  map.resources :users, :collection => [:groups]
+  
   map.resources :processors
 end

@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
   
   def package
-    @package ||= Package.find(params[:package_id])
+    @package ||= Package.find(params[:package_id] || params[:id])
   end
   
   def require_logged_in
@@ -59,10 +59,10 @@ class ApplicationController < ActionController::Base
     access_denied if current_user_too_eager
   end
   
-  def require_group_package_create
-    access_denied unless current_user.member_of_group?(group) && current_user.user_group.find_by_group_id(group.id).has_release_permissions?
+  def require_group_package_create_authorization(g = group)
+    access_denied unless current_user.member_of_group?(g) && current_user.user_group.find_by_group_id(g.id).has_release_permissions?
   end
-
+  
   def require_group_admin
     access_denied unless current_user.member_of_group?(group) && current_user.user_group.find_by_group_id(group.id).group_admin?
   end

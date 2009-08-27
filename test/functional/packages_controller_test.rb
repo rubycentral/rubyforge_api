@@ -11,7 +11,7 @@ class PackagesControllerTest < ActionController::TestCase
       create_package_via_post
     end
     assert_equal response_json["package"]["name"], "apples"
-    assert_equal response_json["package"]["package_id"], Package.last.id
+    assert_equal response_json["package"]["package_id"], @package.id
   end
   
   test "index works" do
@@ -22,9 +22,9 @@ class PackagesControllerTest < ActionController::TestCase
   
   test "can destroy package" do
     create_package_via_post
-    Package.last.releases.create(:name => "foo", :released_by => User.first)
+    @package.releases.create(:name => "foo", :released_by => User.first)
     assert_difference "Package.count", -1 do
-      delete :destroy, :group_id => @group.id, :id => Package.last.id
+      delete :destroy, :id => @package.id
     end
     assert_response :accepted
   end
@@ -33,5 +33,6 @@ class PackagesControllerTest < ActionController::TestCase
   
   def create_package_via_post
     post :create, {:package => {:name => "apples"}, :group_id => @group.id}
+    @package = Package.last
   end
 end
