@@ -75,12 +75,17 @@ class User < ActiveRecord::Base
     hash
   end
   
+  def self.authenticate(username, clear_text_password)
+    User.find_by_user_name_and_user_pw(username, Digest::MD5.hexdigest(clear_text_password))
+  end
+  
   def member_of_group?(group)
     user_group.exists?(:group_id => group.id)
   end
   
-  def self.authenticate(username, clear_text_password)
-    User.find_by_user_name_and_user_pw(username, Digest::MD5.hexdigest(clear_text_password))
+  def change_password_to!(clear_text_password)
+    self.user_pw = Digest::MD5.hexdigest(clear_text_password)
+    self.save!
   end
   
   def authorized_keys_with_newlines

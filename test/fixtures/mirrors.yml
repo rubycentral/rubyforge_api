@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  domain: MyString
+  enabled: false
+  serves_gems: false
+  serves_files: false
+  administrator_name: MyString
+  administrator_email: MyString
+  url: MyString
+
+two:
+  domain: MyString
+  enabled: false
+  serves_gems: false
+  serves_files: false
+  administrator_name: MyString
+  administrator_email: MyString
+  url: MyString

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :mirrors
+
   parent_actions = [:create, :new, :index]
 
   map.resources :groups do |group|
