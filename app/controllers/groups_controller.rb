@@ -6,10 +6,4 @@ class GroupsController < ApplicationController
     end
   end
   
-  def index
-    respond_to do |wants|
-      wants.js {render :json => (user || current_user).groups.active }
-    end
-  end
-  
 end

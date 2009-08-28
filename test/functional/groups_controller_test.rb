@@ -11,10 +11,4 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  test "index should work" do
-    get :index, :user_id => @user.id
-    assert_response :success
-    assert_equal response_json.first["group"]["unix_group_name"], @group.unix_group_name
-  end
-  
 end
