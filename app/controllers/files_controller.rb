@@ -3,7 +3,6 @@ class FilesController < ApplicationController
   before_filter :require_group_package_create_authorization
   
   def create
-    release = group.packages.find_by_package_id(params[:package_id]).releases.find_by_release_id(params[:release_id])
     group.verify_existence_of_gforge_file_directory!
     contents = params.delete(:contents)
     filename = params[:file][:filename]
@@ -12,6 +11,20 @@ class FilesController < ApplicationController
     end
     release.files.create!(params[:file].merge({:file_size => File.size(File.join(group.group_file_directory, filename))}))
     head :created
+  end
+
+  def require_group_package_create_authorization
+    access_denied unless current_user.member_of_group?(group) && current_user.user_group.find_by_group_id(group.id).has_release_permissions?
+  end
+  
+  private 
+  
+  def release
+    @release ||= Release.find(params[:release_id])
+  end
+  
+  def group
+    @group ||= release.package.group
   end
   
 end
