@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :news_bytes, :except => parent_actions
   
-  map.resources :users, :collection => [:groups]
+  map.resources :users, :member => [:groups]
   
   map.resources :processors
 end
