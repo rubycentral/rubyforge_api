@@ -3,5 +3,47 @@
 <title>RubyForge API</title>
 </head>
 <body>
+<h3>Overview</h3>
+<p>This is the documentation for the RubyForge REST API.</p>
+<p>The REST API is currently in beta.  Please <a href="http://rubyforge.org/forum/forum.php?forum_id=32738">post here</a> if you'd like to be in the beta program.  I anticipate opening it up to everyone sometime in late September 2009.
+	
+<h3>Resources available</h3>
+<p>Here's the Rails <code>config/routes.rb</code> file.  For example, there's a <code>mirrors</code> resource, so you can hit <code>/mirrors</code> and get a list of RubyForge mirrors.</p>
+<pre>
+ActionController::Routing::Routes.draw do |map|
+  map.resources :mirrors
+  parent_actions = [:create, :new, :index]
+  map.resources :groups do |group|
+    group.resource :news_bytes, :only => parent_actions
+    group.resources :packages, :only => parent_actions
+  end
+  map.resources :packages, :except => parent_actions do |package|
+    package.resources :releases, :only => parent_actions
+  end
+  map.resources :releases, :except => parent_actions do |release|
+    release.resources :files
+  end
+  map.resources :news_bytes, :except => parent_actions
+  map.resources :users, :member => [:groups]
+  map.resources :processors
+end
+</pre>
+<p>I'd appreciate <a href="http://rubyforge.org/forum/forum.php?forum_id=32738">suggestions</a> on good ways to generate documentation.</p>
+
+<h3>Accessing the API via <code>curl</code></h3>
+<p>Edit your <code>~/.netrc</code> file and add your RubyForge username and password:</p>
+<pre>
+machine api.rubyforge.org login someusername password somepassword
+</pre>
+<p>Now you can hit the API, like this:</p>
+<pre>
+$ curl -n http://api.rubyforge.org/mirrors
+[ {"mirror":{"updated_at":"2009-08-28T17:49:17Z","serves_gems":true,"url":"http://gems.rubyforge.vm.bytemark.co.uk"
+ etc etc
+</pre>
+
+<h3>API users</h3>
+<p>Gentoo is using the API to get the current mirrors list</p>
+<p>The <a href="http://rubyforge.org/projects/codeforpeople/">rubyforge</a> gem uses the API to release files, create packages, post news items, etc.</p>
 </body>
 </html>
