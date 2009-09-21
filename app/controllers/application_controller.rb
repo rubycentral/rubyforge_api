@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   helper :all 
   filter_parameter_logging :password, :contents
 
-  before_filter :require_logged_in, :require_in_beta_user_list, :require_not_overeager
+  before_filter :require_logged_in, :require_not_overeager
   around_filter :record_api_request
 
   def current_user
@@ -38,12 +38,6 @@ class ApplicationController < ActionController::Base
       User.find user_id
     else
       User.find_by_user_name user_id
-    end
-  end
-  
-  def require_in_beta_user_list
-    if defined? BETA_USER_LIST
-      unauthorized unless BETA_USER_LIST.include? current_user.user_name
     end
   end
   
