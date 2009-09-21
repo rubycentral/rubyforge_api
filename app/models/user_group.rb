@@ -28,7 +28,7 @@ class UserGroup < ActiveRecord::Base
   belongs_to :group
   
   def has_release_permissions?
-    release_flags == 1
+    release_flags == 1 || admin_flags.strip == 'A'
   end
   
   def grant_release_permissions!
