@@ -39,7 +39,7 @@ end
 <pre>
 $ irb -rhttparty
 &gt;&gt; class RubyForge ; include HTTParty ; base_uri 'api.rubyforge.org' ; basic_auth 'username', 'password' ; end
-=&gt; {:username=&gt;>"username", :password=&gt;"password"}
+=&gt; {:username=&gt;"username", :password=&gt;"password"}
 &gt;&gt; RubyForge.get('/mirrors').first
 =&gt; {"mirror"=&gt;{"updated_at"=&gt;Fri Aug 28 17:49:17 UTC 2009, "serves_gems"=&gt;true, "domain"=&gt;"rubyforge.vm.bytemark.co.uk", "url"=&gt;"http://gems.rubyforge.vm.bytemark.co.uk", "created_at"=&gt;Fri Aug 28 17:49:17 UTC 2009, "serves_files"=&gt;false}}
 </pre>
