@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :require_logged_in, :require_not_overeager
   around_filter :record_api_request
 
+  include ExceptionNotifiable
+
   def current_user
     @current_user ||= authenticate_or_request_with_http_basic("RubyForge API") do |username, password|
       User.authenticate(username, password)

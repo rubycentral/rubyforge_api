@@ -42,3 +42,6 @@ end
 require 'digest/md5'
 
 require 'pp'
+
+ExceptionNotifier.exception_recipients = %w(tom@infoether.com)
+ExceptionNotifier.sender_address = %("RubyForge API Error" <noreply@rubyforge.org>)
