@@ -31,6 +31,14 @@ class FilesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
+  test "index action" do
+    create_file_with_post
+    get :index, :release_id => @release.id
+    assert_response :success
+    assert_match @release.files.to_json, @response.body
+  end
+  
+  
   def teardown 
     FileUtils.rm_rf @group.group_file_directory
   end

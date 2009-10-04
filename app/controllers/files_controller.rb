@@ -1,6 +1,12 @@
 class FilesController < ApplicationController
   
-  before_filter :require_group_package_create_authorization
+  before_filter :require_group_package_create_authorization, :only => :create
+
+  def index
+    respond_to do |wants|
+      wants.js { render :json => release.files.to_json }
+    end
+  end
   
   def create
     group.verify_existence_of_gforge_file_directory!
