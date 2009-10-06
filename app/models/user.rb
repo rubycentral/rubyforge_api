@@ -81,6 +81,10 @@ class User < ActiveRecord::Base
     User.find_by_user_name_and_user_pw(username, Digest::MD5.hexdigest(clear_text_password))
   end
   
+  def clear_sessions
+    UserSession.delete_all_for_user(self)
+  end
+  
   def member_of_group?(group)
     user_group.exists?(:group_id => group.id)
   end
