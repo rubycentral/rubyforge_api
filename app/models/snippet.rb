@@ -19,7 +19,7 @@ class Snippet < ActiveRecord::Base
   set_primary_key 'snippet_id'
   
   belongs_to :user, :foreign_key => 'created_by'
-  has_many :snippet_versions
+  has_many :snippet_versions, :dependent => :destroy
 
   def self.inheritance_column
     nil
