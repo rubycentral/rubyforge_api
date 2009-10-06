@@ -57,7 +57,9 @@ class User < ActiveRecord::Base
   has_many :forum_messages, :class_name => "Forum", :foreign_key => "posted_by"
   has_many :news_bytes, :foreign_key => "submitted_by"
   has_many :snippets, :foreign_key => 'created_by'
+  has_many :snippet_versions, :foreign_key => 'submitted_by'
   has_many :snippet_packages, :foreign_key => 'created_by'
+  has_many :snippet_package_versions, :foreign_key => 'submitted_by'
   named_scope :active, :conditions => {:status => "A"}
   named_scope :with_uploaded_keys, :conditions => "authorized_keys is not null and authorized_keys != ''"
   # This is not correct yet... needs a HAVING clause, I think

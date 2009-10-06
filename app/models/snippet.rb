@@ -14,9 +14,12 @@
 #
 
 class Snippet < ActiveRecord::Base
+  
   set_table_name 'snippet'
   set_primary_key 'snippet_id'
+  
   belongs_to :user, :foreign_key => 'created_by'
+  has_many :snippet_versions
 
   def self.inheritance_column
     nil
