@@ -34,7 +34,7 @@ namespace :rubyforge do
   
   desc "Sends daily activity report"
   task :send_daily_activity_report => :environment do
-    DailyReport.deliver_summary_for(Time.now)
+    DailyReport.deliver_summary_for(Time.now.to_date)
   end
 
 end
