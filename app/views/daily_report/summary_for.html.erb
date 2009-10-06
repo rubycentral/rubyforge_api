@@ -1,0 +1,24 @@
+Hello there -
+
+This is the daily report for <%= @date.to_s(:db) %>.
+
+The following projects were created today:
+<% @todays_groups.each do |g| %>
+<%= g.unix_group_name -%> (<%= truncate(g.short_description, 80) -%>) which is owned by <%= g.first_admin.user_name -%>
+<% end %>
+
+The following forum messages were posted today:
+
+<% @todays_forum_messages.each do |m| %>
+<%= m.posted_by.user_name -%> (<%= m.posted_by.user_id -%>) posted on <%= m.forum_group.group.unix_group_name -%>: <%= truncate(m.subject, 40) -%>
+<% end %>
+
+The following new artifacts were opened today:
+
+<% @todays_opened_artifacts.each do |a| %>
+<%= a.submitted_by.user_name -%> (<%= a.submitted_by.user_id -%>) posted to <%= a.artifact_group_list.group.unix_group_name %>: <%= truncate(a.summary,50) -%>
+<% end %>
+
+Cheerily, 
+
+RubyForge
