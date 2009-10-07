@@ -44,7 +44,7 @@ require 'fileutils'
 class Group < ActiveRecord::Base
   
   set_primary_key "group_id"
-  
+
   has_and_belongs_to_many :plugins, :join_table => "group_plugin" do
     def includes_svn?
       !all.select {|p| p.plugin_name == "scmsvn"}.empty?
@@ -291,7 +291,7 @@ class Group < ActiveRecord::Base
   
   def provision_docroot
     FileUtils.mkdir_p(vhost_root)
-    FileUtils.copy(ROBOTS_FILE, vhost_root)
+    FileUtils.copy(robots_file_path, vhost_root)
     create_default_homepage
     `chown -R #{first_admin.user_name}:#{unix_group_name} #{vhost_root}`
     `chmod -R 775 #{vhost_root}`
@@ -369,6 +369,10 @@ class Group < ActiveRecord::Base
     end
     puts "/usr/sbin/groupdel #{unix_group_name}"
     puts "#{APACHECTL} restart"
+  end
+
+  def robots_file_path
+    "/home/tom/support/trunk/support/robots.txt" 
   end
 
 end
