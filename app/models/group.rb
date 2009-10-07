@@ -121,7 +121,8 @@ class Group < ActiveRecord::Base
     if plugins.includes_svn? 
       svnify
     elsif plugins.includes_git?
-      gitify
+      # EXPERIMENT This should get done within 5 minutes by the other cronjob.
+      #gitify
     else
       cvsify
     end
