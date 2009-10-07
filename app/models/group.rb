@@ -88,7 +88,7 @@ class Group < ActiveRecord::Base
   end
   
   def vhost_conf
-    "#{HTTPD_CONF_DIR}#{unix_group_name}.rubyforge.org.conf"
+    "#{httpd_conf_directory_path}#{unix_group_name}.rubyforge.org.conf"
   end
   
   def wiki_dir
@@ -373,6 +373,10 @@ class Group < ActiveRecord::Base
 
   def robots_file_path
     "/home/tom/support/trunk/support/robots.txt" 
+  end
+
+  def httpd_conf_directory_path
+    "/usr/local/apache2/conf/groups/"
   end
 
 end
