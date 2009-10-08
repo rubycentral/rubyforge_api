@@ -9,14 +9,19 @@ The following projects were created today:
 
 The following forum messages were posted today:
 
-<% @todays_forum_messages.each do |m| %>
+<% @todays_forum_messages.each do |m| -%>
 <%= m.posted_by.user_name -%> (<%= m.posted_by.user_id -%>) posted on <%= m.forum_group.group.unix_group_name -%>: <%= truncate(m.subject, 40) -%>
 <% end %>
 
 The following new artifacts were opened today:
 
-<% @todays_opened_artifacts.each do |a| %>
+<% @todays_opened_artifacts.each do |a| -%>
 <%= a.submitted_by.user_name -%> (<%= a.submitted_by.user_id -%>) posted to <%= a.artifact_group_list.group.unix_group_name %>: <%= truncate(a.summary,50) -%>
+<% end %>
+
+The following files were released today:
+<% @todays_released_files.each do |f| %>
+<%= f.release.package.group.unix_group_name -%> released <%= f.filename -%>
 <% end %>
 
 Cheerily, 
