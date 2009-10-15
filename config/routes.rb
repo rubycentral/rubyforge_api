@@ -21,4 +21,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users, :member => [:groups]
   
   map.resources :processors
+  
+  map.status '/status', :controller => 'status', :action => 'status'
 end
