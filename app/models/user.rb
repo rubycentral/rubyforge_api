@@ -117,6 +117,10 @@ class User < ActiveRecord::Base
   def home_directory
     "/home/#{user_name}"
   end
+  
+  def to_json(args = {})
+    ActiveSupport::JSON.encode(as_json({:except => [:unix_pw, :email, :user_pw, :confirm_hash]}.merge(args)))
+  end
 
 end
 
