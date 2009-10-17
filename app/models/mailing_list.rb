@@ -14,14 +14,21 @@
 #
 
 class MailingList < ActiveRecord::Base
+  
   set_table_name "mail_group_list"
+  set_primary_key "group_list_id"
+
   belongs_to :owner, :class_name => "User", :foreign_key => "list_admin"
+  belongs_to :group
+
   named_scope :not_created, :conditions => "status != 2"
   named_scope :deleted, :conditions => {:is_public => 9}
+
   def self.mailman_list_lists
     system("/var/mailman/bin/list_lists -b > /tmp/list_lists")
     File.read("/tmp/list_lists").split("\n")
   end
+  
   def self.hourly_cron
     list_lists_cache = self.mailman_list_lists
     not_created.each do |mailing_list|
@@ -42,6 +49,7 @@ class MailingList < ActiveRecord::Base
       end
     end
   end
+  
   def is_deleted?
     is_public == 9
   end

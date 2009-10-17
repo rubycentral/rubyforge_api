@@ -71,6 +71,7 @@ class Group < ActiveRecord::Base
   has_many :news_bytes
   has_many :roles
   has_many :disk_usages, :dependent => :destroy
+  has_many :mailing_lists, :dependent => :destroy
 
   belongs_to :license, :foreign_key => 'license'
   
