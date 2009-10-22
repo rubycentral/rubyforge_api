@@ -23,6 +23,14 @@ class FrsFile < ActiveRecord::Base
   belongs_to :release
   
   before_validation_on_create :set_defaults
+  
+  after_destroy do |record|
+    FileUtils.rm_f record.full_file_path
+  end
+  
+  def full_file_path
+    File.join GFORGE_WWW_FILE_DIRECTORY, release.package.group.unix_group_name, filename
+  end
 
   def hours_old
     (Time.now.to_i - release_time)/3600
