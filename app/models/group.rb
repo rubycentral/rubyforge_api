@@ -77,6 +77,7 @@ class Group < ActiveRecord::Base
   
   named_scope :active, :conditions => {:status => 'A'}
   named_scope :pending, :conditions => {:status => 'P'}
+  named_scope :deleted, :conditions => {:status => 'D'}
   named_scope :needs_vhost_permissions_reset, :conditions => {:needs_vhost_permissions_reset => true}
   named_scope :uses_git, :conditions => "groups.group_id = group_plugin.group_id and group_plugin.plugin_id = plugins.plugin_id and plugins.plugin_name = 'scmgit'", :joins => ", plugins, group_plugin"
   
