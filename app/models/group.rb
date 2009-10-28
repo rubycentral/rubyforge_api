@@ -370,6 +370,7 @@ class Group < ActiveRecord::Base
       puts "tar -zcf /root/project_bkps_just_in_case/#{unix_group_name}_files.tar.gz #{gforge_files_root}"
       puts "rm -rf #{gforge_files_root}"
     end
+    puts "psql -U gforge -c \"delete from gem_namespace_ownerships gno, groups g where g.unix_group_name = '#{unix_group_name}' and g.group_id = gno.group_id\""
     puts "/usr/sbin/groupdel #{unix_group_name}"
     puts "#{APACHECTL} restart"
   end
