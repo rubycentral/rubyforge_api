@@ -353,9 +353,9 @@ class Group < ActiveRecord::Base
   end
   
   def show_steps_to_delete
-    puts "Mark project as deleted in web interface"
     puts "Delete mailing lists" if `egrep "#{unix_group_name}.*confirm" /etc/aliases`.strip.size > 0
     puts "Run the following commands if they look OK"
+    puts "psql -U gforge -c \"update groups set status = 'D' where unix_group_name = '#{unix_group_name}')\""
     puts "rm -f #{vhost_conf}"
     unless plugins.includes_git? # TODO should remove git repo and remove project from gitosis.conf
       puts "du -skh #{scm_root}#{unix_group_name}"
