@@ -121,6 +121,11 @@ class User < ActiveRecord::Base
   def to_json(args = {})
     ActiveSupport::JSON.encode(as_json({:except => [:unix_pw, :email, :user_pw, :confirm_hash]}.merge(args)))
   end
+  
+  def mark_as_deleted!
+    self.update_attribute(:status, 'D')
+    clear_sessions
+  end
 
 end
 
