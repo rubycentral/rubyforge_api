@@ -23,4 +23,11 @@ class NewsByte < ActiveRecord::Base
     self.post_date = Time.now.to_i unless self.post_date && self.post_date != 0
   end
   
+  def approve!
+    self.is_approved = 1
+    self.details = "(none)" if details.blank?
+    self.summary = "(none)" if summary.blank?
+    self.save!
+  end
+  
 end
