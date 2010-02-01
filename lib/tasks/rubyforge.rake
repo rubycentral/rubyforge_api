@@ -11,6 +11,13 @@ namespace :rubyforge do
   task :send_daily_activity_report => :environment do
     DailyReport.deliver_summary_for(Time.now.to_date)
   end
+  
+  desc "Approve all pending news bytes"
+  task :approve_news => :environment do
+    NewsByte.pending_approval.each do |news_byte|
+      news_byte.approve!
+    end
+  end
 
 end
 
