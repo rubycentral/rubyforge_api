@@ -15,7 +15,11 @@ namespace :rubyforge do
   desc "Approve all pending news bytes"
   task :approve_news => :environment do
     NewsByte.pending_approval.each do |news_byte|
-      news_byte.approve! unless news_byte.summary =~ /Commit Notification/
+      if news_byte.summary =~ /Commit Notification/
+        news_byte.reject!
+      else
+        news_byte.approve!
+      end
     end
   end
 

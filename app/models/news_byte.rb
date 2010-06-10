@@ -32,4 +32,8 @@ class NewsByte < ActiveRecord::Base
     self.save!
   end
   
+  def reject!
+    self.is_approved = 2
+    self.save!
+  end
 end
