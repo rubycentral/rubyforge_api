@@ -2,10 +2,7 @@ Hello there -
 
 This is the daily report for <%= @date.to_s(:db) %>.
 
-The following <%= @todays_users.size %> users signed up today:
-<% @todays_users.each do |u| -%>
-<%= u.realname -%> (<%= u.user_name -%>, <%= u.email -%>)
-<% end -%>
+<%= @todays_users.size %> users signed up today.
 
 The following <%= @todays_groups.size %> projects were created today:
 <% @todays_groups.each do |g| %>
