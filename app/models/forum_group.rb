@@ -18,7 +18,7 @@ class ForumGroup < ActiveRecord::Base
   set_primary_key "group_forum_id"
   
   belongs_to :group
-  has_one :forum, :foreign_key => "group_forum_id"
+  has_many :forums, :foreign_key => "group_forum_id"
 
 end
 
