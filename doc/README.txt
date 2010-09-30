@@ -25,3 +25,10 @@ Some notes about news byte creation:
      766 |            589 |       154 | happy christmas +  newyear
      775 |            589 |       119 | RE: happy christmas +  newyear
  (2 rows)
+
+
+To start the service:
+
+sudo su -l webuser
+cdapi
+mongrel_rails cluster::start
