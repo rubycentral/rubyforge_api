@@ -18,7 +18,7 @@ server "rubyforge.org", :app, :web
 role :db, "rubyforge.org", :primary => true
 
 task :move_in_database_yml, :roles => :app do
-  run "cp #{deploy_to}/shared/system/database.yml #{current_path}/config/"
+  run "cp #{deploy_to}/shared/database.yml #{current_path}/config/"
 end
 
 #after "deploy", "deploy:migrate"
