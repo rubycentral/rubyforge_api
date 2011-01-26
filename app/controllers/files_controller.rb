@@ -8,6 +8,10 @@ class FilesController < ApplicationController
     end
   end
   
+  def downloads
+    render :json => FrsFile.find(params[:id]).frs_dlstats_filetotal_agg.downloads
+  end
+  
   def create
     group.verify_existence_of_gforge_file_directory!
     contents = params.delete(:contents)

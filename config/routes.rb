@@ -13,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.resources :releases, :except => parent_actions do |release|
-    release.resources :files
+    release.resources :files, :member => 'downloads'
   end
   
   map.resources :news_bytes, :except => parent_actions

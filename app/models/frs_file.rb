@@ -21,6 +21,8 @@ class FrsFile < ActiveRecord::Base
   belongs_to :file_type, :foreign_key => 'type_id'
   belongs_to :processor
   belongs_to :release
+
+  has_one :frs_dlstats_filetotal_agg, :dependent => :destroy, :foreign_key => :file_id
   
   before_validation_on_create :set_defaults
   
