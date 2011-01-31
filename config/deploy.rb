@@ -3,7 +3,7 @@ require 'mongrel_cluster/recipes'
 set :application, "api"
 
 set :scm, :git
-set :repository,  "git://rubyforge.org/api.git"
+set :repository,  "git://github.com/rubycentral/rubyforge_api.git"
 set :repository_cache, "git_cache"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
