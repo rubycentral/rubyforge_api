@@ -4,9 +4,11 @@ set :application, "api"
 
 set :scm, :git
 set :repository,  "git://github.com/rubycentral/rubyforge_api.git"
-set :repository_cache, "git_cache"
-set :deploy_via, :remote_cache
-set :git_shallow_clone, 1
+# set :repository_cache, "git_cache"
+# set :deploy_via, :remote_cache
+# set :git_shallow_clone, 1
+set :deploy_via, :copy
+set :copy_strategy, :export
 set :deploy_to, "/var/www/gforge-projects/api/"
 
 set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
