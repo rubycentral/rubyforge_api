@@ -24,8 +24,8 @@ class Snippet < ActiveRecord::Base
   self.inheritance_column = :__unused__
   
   def self.remove_spam!
-    %w{nike Nike shoes}.each do |term|
-      find(:all, :conditions => "description like '%#{term}%'").each do |s| 
+    %w{nike shoes}.each do |term|
+      find(:all, :conditions => "description ilike '%#{term}%'").each do |s| 
         s.user.mark_as_deleted!
         s.destroy 
       end
