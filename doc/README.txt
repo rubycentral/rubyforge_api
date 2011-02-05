@@ -51,3 +51,7 @@ delete from disk_usages where created_at < current_date - interval'1 month';
 
 delete from mirrors;
 
+# These two DELETEs knock about 500 MB off the data dump
+delete from frs_dlstats_file where month < 201101;
+delete from stats_project_developers where month < 201101;
+
