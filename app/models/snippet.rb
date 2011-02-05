@@ -21,8 +21,16 @@ class Snippet < ActiveRecord::Base
   belongs_to :user, :foreign_key => 'created_by'
   has_many :snippet_versions, :dependent => :destroy
 
-  def self.inheritance_column
-    nil
+  self.inheritance_column = :__unused__
+  
+  def self.remove_spam!
+    %w{nike Nike shoes}.each do |term|
+      find(:all, :conditions => "description like '%#{term}%'").each do |s| 
+        s.user.mark_as_deleted!
+        s.destroy 
+      end
+    end
+    
   end
 
   def snippet_type

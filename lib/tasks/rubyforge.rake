@@ -22,6 +22,20 @@ namespace :rubyforge do
       end
     end
   end
+  
+  def despam(clazz)
+    before = clazz.count
+    clazz.remove_spam!
+    after = clazz.count
+    puts "Removed #{before-after} spam #{clazz} records"
+  end
+  
+  desc "Remove spam and spammers"
+  task :remove_spam => :environment do
+    [Snippet, SkillsData].each do |clazz|
+      despam clazz
+    end
+  end
 
 end
 
