@@ -7,4 +7,10 @@ class SkillsData < ActiveRecord::Base
   
   belongs_to :user
   
+  def self.remove_spam
+    %w{nike porn shoes wrestling dating href HREF herf watches blackjack poker}.each do |term|
+      find(:all, :conditions => "keywords like '%#{term}%'").each {|s| s.destroy }
+    end
+  end
+  
 end
