@@ -2,27 +2,37 @@ Hello there -
 
 This is the daily report for <%= @date.to_s(:db) %>.
 
+<% if !@todays_users.empty? %>
 <%= @todays_users.size %> users signed up today.
+<% end %>
 
+<% if !@todays_groups.empty? -%>
 The following <%= @todays_groups.size %> projects were created today:
 <% @todays_groups.each do |g| %>
 <%= g.unix_group_name -%> (<%= truncate(g.short_description, 80) -%>) which is owned by <%= g.first_admin.user_name -%>
 <% end %>
+<% end -%>
 
+<% if !@todays_forum_messages.empty? -%>
 The following <%= @todays_forum_messages.size %> forum messages were posted today:
 <% @todays_forum_messages.each do |m| %>
 <%= m.posted_by.user_name -%> (<%= m.posted_by.user_id -%>) posted on <%= m.forum_group.group.unix_group_name -%>: <%= truncate(m.subject, 40) -%>
 <% end %>
+<% end -%>
 
+<% if !@todays_opened_artifacts.empty? -%>
 The following <%= @todays_opened_artifacts.size %> new artifacts were opened today:
 <% @todays_opened_artifacts.each do |a| %>
 <%= a.submitted_by.user_name -%> (<%= a.submitted_by.user_id -%>) posted to <%= a.artifact_group_list.group.unix_group_name %>: <%= truncate(a.summary,50) -%>
 <% end %>
+<% end -%>
 
+<% if !@todays_released_files.empty? -%>
 The following <%= @todays_released_files.size %> files were released today:
 <% @todays_released_files.each do |f| %>
 <%= f.release.package.group.unix_group_name -%> released <%= f.filename -%>
 <% end %>
+<% end -%>
 
 Cheerily, 
 
