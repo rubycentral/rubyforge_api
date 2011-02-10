@@ -15,6 +15,8 @@ class SkillsData < ActiveRecord::Base
     words << "Technology can also be my thing"
     words << "furnace repair"
     words << "Thanks for the great content"
+    words << "extreme wealth"
+    words << "countless individuals"
     words.each do |term|
       find(:all, :conditions => "keywords ilike '%#{term}%'").each do |s| 
         s.user.mark_as_deleted!
