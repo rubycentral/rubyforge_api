@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
   
   has_many :user_group
   has_many :artifacts, :foreign_key => 'submitted_by', :dependent => :destroy
+  has_many :artifact_messages, :foreign_key => 'submitted_by', :dependent => :destroy
   has_many :groups, :through => :user_group
   belongs_to :supported_language, :foreign_key => 'language'
   belongs_to :user_type, :foreign_key => 'type_id'
@@ -120,6 +121,18 @@ class User < ActiveRecord::Base
   
   def to_json(args = {})
     ActiveSupport::JSON.encode(as_json({:except => [:unix_pw, :email, :user_pw, :confirm_hash]}.merge(args)))
+  end
+
+  def delete_child_records!
+    puts "Deleting #{self.artifact_messages.count} messages"
+    artifact_messages.each {|m| m.destroy }
+    puts "Deleting #{self.forum_messages.count} messages"
+    forum_messages.each {|m| m.destroy }
+  end
+
+  def spammer!
+    delete_child_records!
+    mark_as_deleted!
   end
   
   def mark_as_deleted!
