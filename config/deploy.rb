@@ -15,6 +15,7 @@ set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
 set :use_sudo, false
 set :user,  "webuser"
 set :group, "webgroup"
+ssh_options[:keys] = [File.join(ENV['HOME'], '.ssh', 'rubyforge_id_dsa')]
 
 server "rubyforge.org", :app, :web
 role :db, "rubyforge.org", :primary => true

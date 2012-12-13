@@ -124,10 +124,12 @@ class User < ActiveRecord::Base
   end
 
   def delete_child_records!
-    puts "Deleting #{self.artifact_messages.count} messages"
+    puts "Deleting #{self.artifact_messages.count} artifact messages"
     artifact_messages.each {|m| m.destroy }
-    puts "Deleting #{self.forum_messages.count} messages"
+    puts "Deleting #{self.forum_messages.count} forum messages"
     forum_messages.each {|m| m.destroy }
+    puts "Deleting #{self.snippets.count} snippets"
+    snippets.each {|m| m.destroy }
   end
 
   def spammer!
