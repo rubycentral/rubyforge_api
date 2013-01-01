@@ -1,12 +1,12 @@
-==============
+==
 Consider this for API docs:
 http://techblog.floorplanner.com/2008/05/07/rapidoc-rails-rest-api-documentation-generation-well-just-rapidoc/ 
 
-==============
+==
 Used this to install the machinist gem:
 sudo gem install notahat-machinist --source http://gems.github.com
 
-==============
+==
 Some notes about news byte creation:
 # sample data for a support group "Merry Chrismas" news byte:
  # THESE MUST BE CREATED AS PART OF THE NEWS BYTE
@@ -29,14 +29,15 @@ Some notes about news byte creation:
      775 |            589 |       119 | RE: happy christmas +  newyear
  (2 rows)
 
-==============
+==
 To start the service:
 
 sudo su -l webuser
 cdapi
 mongrel_rails cluster::start
 
-==============
+==
+
 To anonymize a GForge DB dump - e.g., for Dr Nic - run this SQL:
 
 update users set email = 'anonymous'||user_id||'@example.org';
@@ -54,4 +55,12 @@ delete from mirrors;
 # These two DELETEs knock about 500 MB off the data dump
 delete from frs_dlstats_file where month < 201101;
 delete from stats_project_developers where month < 201101;
+
+==
+
+If spam is reported on an artifact, i.e.:
+
+http://rubyforge.org/tracker/download.php/718/2844/29642/5722/cos26.html
+
+"718" is the group id.
 

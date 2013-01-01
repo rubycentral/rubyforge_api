@@ -47,6 +47,7 @@ class User < ActiveRecord::Base
   has_many :user_group
   has_many :artifacts, :foreign_key => 'submitted_by', :dependent => :destroy
   has_many :artifact_messages, :foreign_key => 'submitted_by', :dependent => :destroy
+  has_many :artifact_files, :foreign_key => 'submitted_by', :dependent => :destroy
   has_many :groups, :through => :user_group
   belongs_to :supported_language, :foreign_key => 'language'
   belongs_to :user_type, :foreign_key => 'type_id'
@@ -124,12 +125,15 @@ class User < ActiveRecord::Base
   end
 
   def delete_child_records!
-    puts "Deleting #{self.artifact_messages.count} artifact messages"
+    puts "Deleting #{artifact_messages.count} artifact messages"
     artifact_messages.each {|m| m.destroy }
-    puts "Deleting #{self.forum_messages.count} forum messages"
+    puts "Deleting #{forum_messages.count} forum messages"
     forum_messages.each {|m| m.destroy }
-    puts "Deleting #{self.snippets.count} snippets"
+    puts "Deleting #{snippets.count} snippets"
     snippets.each {|m| m.destroy }
+    puts "Deleting #{artifact_files.count} artifact files"
+    artifact_files.each {|m| m.destroy }
+    nil
   end
 
   def spammer!
