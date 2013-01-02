@@ -24,9 +24,14 @@ class Forum < ActiveRecord::Base
   belongs_to :posted_by, :class_name => 'User', :foreign_key => 'posted_by'
 
   def delete_all_messages
-    sql = "delete from forum where group_forum_id = #{self.group_forum_id}"
-    puts "Running '#{sql}'..."
-    Forum.connection.execute(sql)
+    #sql = "delete from forum where group_forum_id = #{self.group_forum_id}"
+    #puts "Running '#{sql}'..."
+    #Forum.connection.execute(sql)
+    Forum.find_each(:batch_size => 100, :conditions => ["group_forum_id = ?", group_forum_id]) do |f|
+      puts "Deleting #{f.subject}"
+      f.destroy
+    end
+    nil
   end
 end
 

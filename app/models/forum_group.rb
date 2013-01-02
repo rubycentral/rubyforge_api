@@ -16,9 +16,13 @@ class ForumGroup < ActiveRecord::Base
 
   set_table_name "forum_group_list"
   set_primary_key "group_forum_id"
-  
+
   belongs_to :group
   has_many :forums, :foreign_key => "group_forum_id"
+
+  def disallow_anonymous_postings!
+    self.update_attribute :allow_anonymous, false
+  end
 
 end
 
